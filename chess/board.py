@@ -5,9 +5,6 @@ from .pieces import *
 
 class Board:
     """An abstraction of a chessboard to hold Square() objects with TkInterface properties"""
-    WHITE_SQUARE = '#bfbfbf'
-    BLACK_SQUARE = '#994d00'
-
     def __init__(self, master: Tk):
         """
         Creates the board
@@ -26,20 +23,7 @@ class Board:
         """
         for i in range(8):
             for j in range(8):
-                self.squares[i][j] = Square(self.frame, i, j, self.get_color(i, j), self.get_piece(i, j))
-
-    def get_color(self, rank: int, file: int) -> str:
-        """
-        A simple formula for determining the appropriate color for the square
-        :param rank: The rank (row) of the square
-        :param file: The file (column) of the square
-        :return: A string corresponding to the appropriate background color of the square
-        """
-        # Using taxicab distance, determine proper color
-        if (rank + file) % 2 == 0:
-            return self.WHITE_SQUARE
-        else:
-            return self.BLACK_SQUARE
+                self.squares[i][j] = Square(self.frame, i, j, self.get_piece(i, j))
 
     def get_piece(self, rank: int, file: int) -> Piece:
         pass
