@@ -18,7 +18,7 @@ class Board:
         self.squares = [[[None] for _ in range(8)] for _ in range(8)]  # Standard 8x8 chessboard
 
         self.make_squares()
-        self.place_squares()
+        self.frame.grid(row=0, column=0, rowspan=8, columnspan=8)
 
     def make_squares(self):
         """
@@ -26,18 +26,20 @@ class Board:
         """
         for i in range(8):
             for j in range(8):
-                self.squares[i][j] = Square(i, j, self.get_color(i, j), self.get_piece(i, j))
+                self.squares[i][j] = Square(self.frame, i, j, self.get_color(i, j), self.get_piece(i, j))
 
     def get_color(self, rank: int, file: int) -> str:
+        """
+        A simple formula for determining the appropriate color for the square
+        :param rank: The rank (row) of the square
+        :param file: The file (column) of the square
+        :return: A string corresponding to the appropriate background color of the square
+        """
         # Using taxicab distance, determine proper color
-        if rank + file % 2 == 0:
+        if (rank + file) % 2 == 0:
             return self.WHITE_SQUARE
         else:
             return self.BLACK_SQUARE
 
     def get_piece(self, rank: int, file: int) -> Piece:
         pass
-
-    def place_squares(self):
-        pass
-

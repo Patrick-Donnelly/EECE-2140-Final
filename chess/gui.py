@@ -22,7 +22,7 @@ class GUI:
         """
         Creates the menu of buttons placed below the chessboard
         """
-        H, W, P = 3, 16, 2  # Height, Width, Pad
+        H, W, P = 4, 16, 2  # Height, Width, Pad
         reset = Button(self.root, height=H, width=W, text="RESTART", command=reset_game)
         flip = Button(self.root, height=H, width=W, text="FLIP BOARD", command=flip_board)
         undo = Button(self.root, height=H, width=W, text="UNDO MOVE", command=undo_last_move)
