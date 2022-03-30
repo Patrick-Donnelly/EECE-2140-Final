@@ -1,6 +1,6 @@
 # square.py by Patrick J. Donnelly
 from tkinter import Frame
-from .pieces import Piece
+from .pieces import *
 
 class Square:
     """An abstraction of a chessboard square to hold Piece() objects with TkInterface properties"""
@@ -37,5 +37,14 @@ class Square:
         """
         Set the properties of the square, taking into account rank and file labels
         """
+        # Delete the active frame if applicable
+        if self.square:
+            self.square.destroy()
+
+        # Create the frame according to the class parameters
         self.square = Frame(self.master, bg=self.color, width=80, height=80)
         self.square.grid(row=self.rank, column=self.file)
+
+        # Place a button over top of the frame
+        Button(self.square, bg=self.color, text=self.piece.label).pack(fill='both')
+
