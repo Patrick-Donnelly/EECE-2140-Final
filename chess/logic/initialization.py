@@ -18,7 +18,6 @@ def get_color(rank: int, file: int) -> str:
     else:
         return BLACK_SQUARE
 
-
 def get_piece(container, rank: int, file: int) -> Piece:
     if rank == 1:
         return Pawn(container, rank, file, False)

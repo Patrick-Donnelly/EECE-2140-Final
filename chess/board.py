@@ -1,7 +1,6 @@
 # board.py by Patrick J. Donnelly
 from tkinter import Tk, Frame
 from .square import Square
-from .pieces import *
 from .logic.initialization import *
 
 class Board:
