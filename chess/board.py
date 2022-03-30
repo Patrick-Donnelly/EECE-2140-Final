@@ -24,4 +24,4 @@ class Board:
         """
         for i in range(8):
             for j in range(8):
-                self.squares[i][j] = Square(self.frame, self, i, j, get_color(i, j), get_piece(i, j))
+                self.squares[i][j] = Square(self.frame, self, i, j, get_color(i, j))

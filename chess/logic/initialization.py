@@ -19,5 +19,23 @@ def get_color(rank: int, file: int) -> str:
         return BLACK_SQUARE
 
 
-def get_piece(rank: int, file: int) -> Piece:
-    pass
+def get_piece(container, rank: int, file: int) -> Piece:
+    if rank == 1:
+        return Pawn(container, rank, file, False)
+    elif rank == 6:
+        return Pawn(container, rank, file, True)
+    elif rank in [0, 7]:
+        if file in [0, 7]:
+            return Rook(container, rank, file, rank == 7)
+        elif file in [1, 6]:
+            return Knight(container, rank, file, rank == 7)
+        elif file in [2, 5]:
+            return Bishop(container, rank, file, rank == 7)
+        elif file == 3:
+            return Queen(container, rank, file, rank == 7)
+        elif file == 4:
+            return King(container, rank, file, rank == 7)
+        else:
+            raise ValueError("RANK AND FILE OUTSIDE BOARD DIMENSIONS")
+    else:
+        return Piece(container, rank, file, None)

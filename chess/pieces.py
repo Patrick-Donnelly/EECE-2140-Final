@@ -15,7 +15,7 @@ class Piece:
         self.rank = rank
         self.file = file
         self.team = team
-        self.label = None  # The image associated with the piece
+        self.label = ' '  # The image associated with the piece
         self.type = None  # The type of the piece for internal use
 
     def set_label(self):
