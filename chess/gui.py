@@ -13,11 +13,15 @@ class GUI:
         self.root.geometry('640x720')
         self.root.resizable(False, False)
 
+        # Call and place the chessboard
         self.board = Board(self.root)
 
         self.generate_menu()
 
     def generate_menu(self):
+        """
+        Creates the menu of buttons placed below the chessboard
+        """
         H, W, P = 3, 16, 2  # Height, Width, Pad
         reset = Button(self.root, height=H, width=W, text="RESTART", command=reset_game)
         flip = Button(self.root, height=H, width=W, text="FLIP BOARD", command=flip_board)
@@ -30,4 +34,7 @@ class GUI:
         end.grid(row=9, rowspan=1, column=6, columnspan=2, padx=P)
 
     def begin_game(self):
+        """
+        Begins the game by initiating main loop
+        """
         self.root.mainloop()
