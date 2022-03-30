@@ -1,7 +1,10 @@
 # chess.py by Patrick J. Donnelly
-
-from gui import GUI
+from .gui import GUI
 
 class Chess:
     """A wrapper class for the chess game"""
-    main = GUI()
+    def __init__(self):
+        self.gui = GUI()
+
+    def begin_game(self):
+        self.gui.begin_game()
