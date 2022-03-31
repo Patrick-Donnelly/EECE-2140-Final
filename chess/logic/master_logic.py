@@ -5,29 +5,27 @@ from ..square import Square
 from ..pieces import *
 
 def master_button_action(board: Board, square: Square):
+    """
+    Sice Tkinter buttons can only have one command, this function serves as that command
+    :param board: The board attached to the button
+    :param square: The square attached to the button
+    """
     # If there is a highlighted square, either attempt or abort capture
+    # If you attempt to highlight an enemy or null piece, nothing happens
     if board.selected_square:
         # If the selected square is the given square, abort capture
         if board.selected_square is square:
             board.selected_square = None
-            increment_move(board, -1)
         else:
             # If the pieces are on opposite teams, attempt capture; else, abort
-            if square.piece.team != get_team(board):
+            if square.piece.team != board.move:
                 attempt_capture(board, square)
             else:
                 board.selected_square = None
-                increment_move(board, -1)
-    elif square.piece.team == get_team(board):
+    elif square.piece.team == board.move:
         board.selected_square = square
-        increment_move(board, 1)
     update()
-
-def get_team(board: Board):
-    return board.move in [0, 1]
-
-def increment_move(board: Board, val: int):
-    board.move = (board.move + val) % 4
+    print(square.rank, square.file, board.selected_square)
 
 def attempt_capture(board: Board, square: Square):
     pass

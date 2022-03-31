@@ -11,7 +11,7 @@ class Board:
         self.root = master
         self.frame = Frame(master)
         self.squares = [[[None] for _ in range(8)] for _ in range(8)]  # Standard 8x8 chessboard
-        self.move = 0  # 0: White choice, 1: White move, 2: Black choice, 4: Black move
+        self.move = True  # True: white, False: black
         self.selected_square = None
 
         self.make_squares()
