@@ -1,11 +1,11 @@
 # gui.py by Patrick J. Donnelly
 from tkinter import Tk, Button
-from .board import Board
-from .logic.master_logic import reset_game, flip_board, undo_last_move
 
 class GUI:
     """The beating heart of the chess program; handles TkInterface objects"""
     def __init__(self):
+        from .board import Board
+
         self.root = Tk()
 
         # Creates a non-resizable 640x720 window named 'Chess'
@@ -22,6 +22,8 @@ class GUI:
         """
         Creates the menu of buttons placed below the chessboard
         """
+        from .logic.master_logic import reset_game, flip_board, undo_last_move
+
         H, W, P = 4, 16, 2  # Height, Width, Pad
         reset = Button(self.root, height=H, width=W, text="RESTART", command=reset_game)
         flip = Button(self.root, height=H, width=W, text="FLIP BOARD", command=flip_board)

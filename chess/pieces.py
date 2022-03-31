@@ -17,6 +17,7 @@ class Piece:
         self.team = team
         self.label = ' '  # The image associated with the piece
         self.type = None  # The type of the piece for internal use
+        self.has_moved = False  # Used for pawn moves, castling, and en passant
 
     def set_label(self):
         """

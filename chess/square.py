@@ -1,12 +1,13 @@
 # square.py by Patrick J. Donnelly
 from tkinter import Frame, Button
 from tkinter.font import Font
-from .logic.initialization import get_piece
 
 class Square:
     """An abstraction of a chessboard square to hold Piece() objects with TkInterface properties"""
     def __init__(self, master: Frame, container, rank: int, file: int,
                  color: str, rank_label=None, file_label=None):
+        from .logic.initialization import get_piece
+
         self.master = master
         self.container = container
 
@@ -27,6 +28,8 @@ class Square:
         """
         Set the properties of the square, taking into account rank and file labels
         """
+        from .logic.master_logic import master_button_action
+
         # Delete the active frame if applicable
         if self.square:
             self.square.destroy()
