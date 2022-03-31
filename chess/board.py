@@ -13,6 +13,7 @@ class Board:
         self.squares = [[[None] for _ in range(8)] for _ in range(8)]  # Standard 8x8 chessboard
         self.move = True  # True: white, False: black
         self.selected_square = None
+        self.is_flipped = False
 
         self.make_squares()
         self.frame.grid(row=0, column=0, rowspan=8, columnspan=8)

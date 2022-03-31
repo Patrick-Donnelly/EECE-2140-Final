@@ -1,8 +1,6 @@
 # master_logic.py by Patrick J. Donnelly
 # The main logic module for the chess game
-from ..board import Board
-from ..square import Square
-from ..pieces import *
+from .movement import *
 
 def master_button_action(board: Board, square: Square):
     """
@@ -25,10 +23,34 @@ def master_button_action(board: Board, square: Square):
     elif square.piece.team == board.move:
         board.selected_square = square
     update()
-    print(square.rank, square.file, board.selected_square)
 
 def attempt_capture(board: Board, square: Square):
-    pass
+    if is_legal(board, square):
+        pass
+
+def is_legal(board: Board, square: Square) -> bool:
+    """
+    A bloated switch to direct move to proper logic
+    :param board: sic.
+    :param square: sic.
+    """
+    attacker = board.selected_square.piece
+
+    if isinstance(attacker, Pawn):
+        return is_legal_pawn(board, square)
+    elif isinstance(attacker, Knight):
+        return is_legal_pawn(board, square)
+    elif isinstance(attacker, Bishop):
+        return is_legal_pawn(board, square)
+    elif isinstance(attacker, Rook):
+        return is_legal_pawn(board, square)
+    elif isinstance(attacker, Queen):
+        return is_legal_pawn(board, square)
+    elif isinstance(attacker, King):
+        return is_legal_pawn(board, square)
+    else:
+        raise RuntimeError("UNKNOWN ERROR")
+
 
 def update():
     pass

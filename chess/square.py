@@ -17,7 +17,7 @@ class Square:
         self.file_label = file_label
 
         self.color = color
-        self.piece = get_piece(self, rank, file)
+        self.piece = get_piece(rank, file)
         self.font = None
 
         self.square = None
