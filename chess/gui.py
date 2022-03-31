@@ -22,7 +22,7 @@ class GUI:
         """
         Creates the menu of buttons placed below the chessboard
         """
-        from .logic.master_logic import reset_game, flip_board, undo_last_move
+        from .logic.menuing import reset_game, flip_board, undo_last_move
 
         H, W, P = 4, 16, 2  # Height, Width, Pad
         reset = Button(self.root, height=H, width=W, text="RESTART", command=reset_game)

@@ -42,5 +42,5 @@ class Square:
         self.font = Font(root=self.square, family='Times', size=50)
 
         # Place a button over top of the frame
-        Button(self.square, bg=self.color, relief='flat', text=self.piece.label, font=self.font).place(relheight=1, relwidth=1)
-
+        Button(self.square, bg=self.color, relief='flat', text=self.piece.label, font=self.font,
+               command=lambda: master_button_action(self.container, self)).place(relheight=1, relwidth=1)

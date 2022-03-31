@@ -19,11 +19,18 @@ def get_color(rank: int, file: int) -> str:
         return BLACK_SQUARE
 
 def get_piece(container, rank: int, file: int) -> Piece:
-    if rank == 1:
+    """
+    Returns the appropriate starting piece for a given space
+    :param container: The Square object of the Piece
+    :param rank: The rank of the Square
+    :param file: The file of the Square
+    :return: The said appropriate piece
+    """
+    if rank == 1:  # Black pawns
         return Pawn(container, rank, file, False)
-    elif rank == 6:
+    elif rank == 6:  # White pawns
         return Pawn(container, rank, file, True)
-    elif rank in [0, 7]:
+    elif rank in [0, 7]:  # It's chess
         if file in [0, 7]:
             return Rook(container, rank, file, rank == 7)
         elif file in [1, 6]:
@@ -37,4 +44,4 @@ def get_piece(container, rank: int, file: int) -> Piece:
         else:
             raise ValueError("RANK AND FILE OUTSIDE BOARD DIMENSIONS")
     else:
-        return Piece(container, rank, file, None)
+        return Piece(container, rank, file, None)  # For the sake of generality, spaces without pieces get null pieces
