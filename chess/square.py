@@ -26,13 +26,9 @@ class Square:
 
     def set_square(self):
         """
-        Set the properties of the square, taking into account rank and file labels
+        Set the initial properties of the square, taking into account rank and file labels
         """
         from .logic.master_logic import master_button_action
-
-        # Delete the active frame if applicable
-        if self.square:
-            self.square.destroy()
 
         # Create the frame according to the class parameters
         self.square = Frame(self.master, bg=self.color, width=80, height=80)
@@ -42,5 +38,27 @@ class Square:
         self.font = Font(root=self.square, family='Times', size=50)
 
         # Place a button over top of the frame
+        Button(self.square, bg=self.color, relief='flat', text=self.piece.label, font=self.font,
+               command=lambda: master_button_action(self.container, self)).place(relheight=1, relwidth=1)
+
+    def update_square(self):
+        """
+        Updates the properties of a given square
+        """
+        from .logic.master_logic import master_button_action
+
+        # Button automatically destroyed
+        self.square.destroy()
+        self.square = Frame(self.master, bg=self.color, width=80, height=80)
+
+        if self.container.is_flipped:
+            row = 7-self.rank
+            col = 7-self.file
+        else:
+            row = self.rank
+            col = self.file
+
+        self.square.grid(row=row, column=col)
+
         Button(self.square, bg=self.color, relief='flat', text=self.piece.label, font=self.font,
                command=lambda: master_button_action(self.container, self)).place(relheight=1, relwidth=1)

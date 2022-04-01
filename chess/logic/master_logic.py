@@ -26,7 +26,9 @@ def master_button_action(board: Board, square: Square):
 
 def attempt_capture(board: Board, square: Square):
     if is_legal(board, square):
-        pass
+        move(board, square)
+        board.move = not board.move
+        update(board, square)
 
 def is_legal(board: Board, square: Square) -> bool:
     """
@@ -51,6 +53,17 @@ def is_legal(board: Board, square: Square) -> bool:
     else:
         raise RuntimeError("UNKNOWN ERROR")
 
+def move(board: Board, square: Square):
+    """
+    Moves one piece from the given space to the selected space
+    :param board: sic.
+    :param square: sic
+    """
+    board.selected_square.piece = square.piece
+    board.selected_square = None
+    square.piece = Piece(None)
 
-def update():
-    pass
+def update(board: Board, square: Square):
+    board.selected_square.update_square()
+    square.update_square()
+    board.selected_square = None

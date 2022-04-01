@@ -26,21 +26,21 @@ def get_piece(rank: int, file: int) -> Piece:
     :return: The said appropriate piece
     """
     if rank == 1:  # Black pawns
-        return Pawn(rank, file, False)
+        return Pawn(False)
     elif rank == 6:  # White pawns
-        return Pawn(rank, file, True)
+        return Pawn(True)
     elif rank in [0, 7]:  # It's chess
         if file in [0, 7]:
-            return Rook(rank, file, rank == 7)
+            return Rook(rank == 7)
         elif file in [1, 6]:
-            return Knight(rank, file, rank == 7)
+            return Knight(rank == 7)
         elif file in [2, 5]:
-            return Bishop(rank, file, rank == 7)
+            return Bishop(rank == 7)
         elif file == 3:
-            return Queen(rank, file, rank == 7)
+            return Queen(rank == 7)
         elif file == 4:
-            return King(rank, file, rank == 7)
+            return King(rank == 7)
         else:
             raise ValueError("RANK AND FILE OUTSIDE BOARD DIMENSIONS")
     else:
-        return Piece(rank, file, None)  # For the sake of generality, spaces without pieces get null pieces
+        return Piece(None)  # For the sake of generality, spaces without pieces get null pieces
