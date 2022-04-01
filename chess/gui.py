@@ -25,7 +25,7 @@ class GUI:
         from .logic.menuing import reset_game, flip_board, undo_last_move
 
         H, W, P = 4, 16, 2  # Height, Width, Pad
-        reset = Button(self.root, height=H, width=W, text="RESTART", command=reset_game)
+        reset = Button(self.root, height=H, width=W, text="RESTART", command=lambda: reset_game(self.board))
         flip = Button(self.root, height=H, width=W, text="FLIP BOARD", command=lambda: flip_board(self.board))
         undo = Button(self.root, height=H, width=W, text="UNDO MOVE", command=undo_last_move)
         end = Button(self.root, height=H, width=W, text="EXIT", command=lambda: self.root.destroy())
