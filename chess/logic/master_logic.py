@@ -1,6 +1,7 @@
 # master_logic.py by Patrick J. Donnelly
 # The main logic module for the chess game
 from .movement import *
+from ..square import Square
 
 def master_button_action(board: Board, square: Square):
     """
@@ -22,13 +23,14 @@ def master_button_action(board: Board, square: Square):
                 board.selected_square = None
     elif square.piece.team == board.move:
         board.selected_square = square
-    update()
 
 def attempt_capture(board: Board, square: Square):
     if is_legal(board, square):
         move(board, square)
         board.move = not board.move
         update(board, square)
+    else:
+        board.selected_square = None
 
 def is_legal(board: Board, square: Square) -> bool:
     """
@@ -57,11 +59,11 @@ def move(board: Board, square: Square):
     """
     Moves one piece from the given space to the selected space
     :param board: sic.
-    :param square: sic
+    :param square: sic.
     """
-    board.selected_square.piece = square.piece
-    board.selected_square = None
-    square.piece = Piece(None)
+    board.selected_square.piece.has_moved = True
+    square.piece = board.selected_square.piece
+    board.selected_square.piece = Piece(None)
 
 def update(board: Board, square: Square):
     board.selected_square.update_square()

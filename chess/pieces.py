@@ -23,6 +23,20 @@ class Piece:
         if self.type is not None:
             self.label = self.LABELS[self.type][self.team]
 
+    def __bool__(self):
+        """
+        Defines the Boolean interpretation of the piece, specifically for null pieces
+        :return: A Boolean corresponding to whether the piece is not null
+        """
+        return self.team is not None
+
+    def __str__(self):
+        """
+        Defines the string of a given piece
+        :return: A string representing the piece
+        """
+        return self.label
+
 class King(Piece):
     """An abstraction of a chess king"""
     def __init__(self, team: bool):

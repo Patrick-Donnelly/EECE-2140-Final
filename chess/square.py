@@ -62,3 +62,11 @@ class Square:
 
         Button(self.square, bg=self.color, relief='flat', text=self.piece.label, font=self.font,
                command=lambda: master_button_action(self.container, self)).place(relheight=1, relwidth=1)
+
+    def __str__(self):
+        """
+        Defines the string of a square
+        :return: The string representation of a given square
+        """
+        key = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g', 7: 'h'}
+        return str(self.piece) + key[self.file] + str(8 - self.rank)
