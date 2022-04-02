@@ -77,6 +77,6 @@ def update(board: Board, square: Square):
     :param board: sic.
     :param square: sic.
     """
-    board.selected_square.update_square()
-    square.update_square()
+    board.selected_square.update()
+    square.update()
     board.selected_square = None

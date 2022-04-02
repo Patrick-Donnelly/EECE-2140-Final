@@ -3,10 +3,7 @@ from ..board import Board
 from ..square import Square
 from ..pieces import *
 
-# NOTE: The coordinate system for this will get very messy, so I am going to explain my system here. Due to my wanting
-# to keep the logic to a minimum and maintain the ability to flip the board, all comparisons will be piece neutral and
-# relative to the attacking piece. That is, if a white piece is at rank = x = 3, the piece immediately in front of it
-# will be rank = x = 4, with the exact same coordinates working for a black piece.
+# NOTE: The coordinate system for this is unusual. All coordinates are relative to the forward direction of the piece.
 
 def is_legal_pawn(board: Board, defender: Square) -> bool:
     """
@@ -43,7 +40,7 @@ def is_legal_knight(board: Board, defender: Square) -> bool:
     """
     attacker = board.selected_square
     dx, dy = get_dp(attacker, defender)
-    ax, dy = abs(dx), abs(dy)
+    dx, dy = abs(dx), abs(dy)
 
     # The knight can only move in L shapes
     if dx in [1, 2] and dy in [1, 2]:

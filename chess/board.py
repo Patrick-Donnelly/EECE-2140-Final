@@ -1,5 +1,7 @@
 # board.py by Patrick J. Donnelly
 from tkinter import Tk, Frame
+from .gui import GUI
+from .square import Square
 
 class Board:
     """An abstraction of a chessboard to hold Square() objects with TkInterface properties"""
@@ -22,9 +24,11 @@ class Board:
         """
         Creates all the Square() objects in the board
         """
-        from .square import Square
-        from .logic.initialization import get_color
-
         for i in range(8):
             for j in range(8):
-                self.squares[i][j] = Square(self.frame, self, i, j, get_color(i, j))
+                self.squares[i][j] = Square(self.frame, self, i, j)
+
+    def update_squares(self):
+        for i in range(8):
+            for j in range(8):
+                self.squares[i][j].update()

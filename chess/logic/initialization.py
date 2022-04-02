@@ -1,11 +1,11 @@
 # initialization.py by Patrick J. Donnelly
 from ..pieces import *
 
-# Hex colors for black and white squares
-WHITE_SQUARE = '#bfbfbf'
-BLACK_SQUARE = '#994d00'
+# Hex colors for black and white squares, both neutral and selected
+WHITE_SQUARE = '#bfbfbf', '#404040'
+BLACK_SQUARE = '#994d00', "#66b2ff"
 
-def get_color(rank: int, file: int) -> str:
+def get_color(rank: int, file: int) -> (str, str):
     """
     A simple formula for determining the appropriate color for the square
     :param rank: The rank (row) of the square
@@ -29,7 +29,7 @@ def get_piece(rank: int, file: int) -> Piece:
         return Pawn(False)
     elif rank == 6:  # White pawns
         return Pawn(True)
-    elif rank in [0, 7]:  # It's chess
+    elif rank in [0, 7]:  # etc.
         if file in [0, 7]:
             return Rook(rank == 7)
         elif file in [1, 6]:
@@ -43,4 +43,6 @@ def get_piece(rank: int, file: int) -> Piece:
         else:
             raise ValueError("RANK AND FILE OUTSIDE BOARD DIMENSIONS")
     else:
-        return Piece(None)  # For the sake of generality, spaces without pieces get null pieces
+        return Piece(None)
+        # For the sake of generality, spaces without pieces get null pieces. Attempting to place
+        # None objects in a square breaks the labeling mechanic.

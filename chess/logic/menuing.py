@@ -3,15 +3,12 @@ from ..board import Board
 
 def flip_board(board: Board):
     board.is_flipped = not board.is_flipped
-    update_all()
+    board.update_squares()
 
 def reset_game(board: Board):
     board.make_squares()
     board.move = True
-    update_all()
+    # Doesn't require an update command because squares are destroyed and re-instantiated
 
 def undo_last_move():
-    pass
-
-def update_all():
     pass
