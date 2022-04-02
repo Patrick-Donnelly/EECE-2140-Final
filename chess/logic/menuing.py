@@ -7,6 +7,7 @@ def flip_board(board: Board):
 
 def reset_game(board: Board):
     board.make_squares()
+    board.move = True
     update_all()
 
 def undo_last_move():

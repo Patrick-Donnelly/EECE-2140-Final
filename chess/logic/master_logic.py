@@ -49,15 +49,15 @@ def is_legal(board: Board, square: Square) -> bool:
     if isinstance(attacker, Pawn):
         return is_legal_pawn(board, square)
     elif isinstance(attacker, Knight):
-        return is_legal_pawn(board, square)
+        return is_legal_knight(board, square)
     elif isinstance(attacker, Bishop):
-        return is_legal_pawn(board, square)
+        return is_legal_bishop(board, square)
     elif isinstance(attacker, Rook):
-        return is_legal_pawn(board, square)
+        return is_legal_rook(board, square)
     elif isinstance(attacker, Queen):
-        return is_legal_pawn(board, square)
+        return is_legal_queen(board, square)
     elif isinstance(attacker, King):
-        return is_legal_pawn(board, square)
+        return is_legal_king(board, square)
     else:
         raise RuntimeError("UNKNOWN ERROR")
 

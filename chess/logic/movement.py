@@ -17,8 +17,6 @@ def is_legal_pawn(board: Board, defender: Square) -> bool:
     """
     attacker = board.selected_square
     dx, dy = get_dp(attacker, defender)
-    print(dx, dy)
-    print(attacker.piece.has_moved)
 
     # The most basic chess piece, can only move forward, and may only capture diagonally
     if dy == 0:  # Must either be a first-move move of two, or a simple move of one; must be unobstructed
@@ -36,20 +34,97 @@ def is_legal_pawn(board: Board, defender: Square) -> bool:
     else:
         return False
 
-def is_legal_knight(attacker: Square, defender: Square) -> bool:
-    pass
+def is_legal_knight(board: Board, defender: Square) -> bool:
+    """
+    Determines the legality of a given knight move
+    :param board: sic.
+    :param defender: The defending square
+    :return: A Boolean corresponding to the legality of the move
+    """
+    attacker = board.selected_square
+    dx, dy = get_dp(attacker, defender)
+    ax, dy = abs(dx), abs(dy)
 
-def is_legal_bishop(attacker: Square, defender: Square) -> bool:
-    pass
+    # The knight can only move in L shapes
+    if dx in [1, 2] and dy in [1, 2]:
+        return dx != dy
+    else:
+        return False
 
-def is_legal_rook(attacker: Square, defender: Square) -> bool:
-    pass
+def is_legal_bishop(board: Board, defender: Square) -> bool:
+    """
+    Determines the legality of a given bishop move
+    :param board: sic.
+    :param defender: The defending square
+    :return: A Boolean corresponding to the legality of the move
+    """
+    attacker = board.selected_square
+    dx, dy = get_dp(attacker, defender)
 
-def is_legal_queen(attacker: Square, defender: Square) -> bool:
-    pass
+    # Bishop can only move along diagonals, i.e. |dx| = |dy| with no other pieces in the way
+    if abs(dx) == abs(dy):
+        x_negative = dx < 0
+        y_negative = dy < 0
+        # For each square along the diagonal, if it is populated by a non-null piece, it fails
+        for i in range(1, abs(dx)):
+            if bool(get_relative(board, i*((-1)**x_negative), i*((-1)**y_negative)).piece):
+                return False
+        return True
+    else:
+        return False
 
-def is_legal_king(attacker: Square, defender: Square) -> bool:
-    pass
+def is_legal_rook(board: Board, defender: Square) -> bool:
+    """
+    Determines the legality of a given rook move
+    :param board: sic.
+    :param defender: The defending square
+    :return: A Boolean corresponding to the legality of the move
+    """
+    attacker = board.selected_square
+    dx, dy = get_dp(attacker, defender)
+
+    # Rooks may only move in straight lines
+    if (dx == 0) != (dy == 0):  # Logical XOR; one must be zero, but not both
+        # For each square along the rank or file, if it is populated by a non-null piece, it fails
+        if dx:
+            x_negative = dx < 0
+            for i in range(1, abs(dx)):
+                if bool(get_relative(board, i*((-1)**x_negative), 0).piece):
+                    return False
+        else:
+            y_negative = dy < 0
+            for i in range(1, abs(dy)):
+                if bool(get_relative(board, 0, i*((-1)**y_negative)).piece):
+                    return False
+        return True
+    else:
+        return False
+
+def is_legal_queen(board: Board, defender: Square) -> bool:
+    """
+    Determines the legality of a given rook move
+    :param board: sic.
+    :param defender: The defending square
+    :return: A Boolean corresponding to the legality of the move
+    """
+    # A queen is a combination bishop and rook
+    return is_legal_bishop(board, defender) or is_legal_rook(board, defender)
+
+def is_legal_king(board: Board, defender: Square) -> bool:
+    """
+    Determines the legality of a given rook move
+    :param board: sic.
+    :param defender: The defending square
+    :return: A Boolean corresponding to the legality of the move
+    """
+    attacker = board.selected_square
+    dx, dy = get_dp(attacker, defender)
+
+    # A king can only move one space in any direction, including diagonals
+    if dx in [-1, 0, 1] and dy in [-1, 0, 1]:
+        return True
+    else:
+        return False
 
 def get_dp(attacker: Square, defender: Square) -> (int, int):
     """
