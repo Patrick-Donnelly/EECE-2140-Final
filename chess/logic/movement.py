@@ -20,15 +20,15 @@ def is_legal_pawn(board: Board, defender: Square) -> bool:
     print(dx, dy)
     print(attacker.piece.has_moved)
 
-    # The most basic chess piece, can only move forward, and may only capture sideways
-    if dy == 0:
+    # The most basic chess piece, can only move forward, and may only capture diagonally
+    if dy == 0:  # Must either be a first-move move of two, or a simple move of one; must be unobstructed
         if dx == 2 and not attacker.piece.has_moved:
             return not (bool(get_relative(board, 1, 0).piece) and bool(attacker.piece))
         elif dx == 1:
             return not bool(defender.piece)
         else:
             return False
-    elif dy in [-1, 1]:
+    elif dy in [-1, 1]:  # By definition, must either be attempting to capture or is an illegal move
         if dx == 1:
             return bool(defender.piece)
         else:

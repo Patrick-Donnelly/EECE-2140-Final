@@ -25,6 +25,12 @@ def master_button_action(board: Board, square: Square):
         board.selected_square = square
 
 def attempt_capture(board: Board, square: Square):
+    """
+    Attempts to capture the current square from the board's selected square
+    :param board: sic.
+    :param square: sic.
+    """
+    # If the attempted ove is legal, execute; else, abort
     if is_legal(board, square):
         move(board, square)
         board.move = not board.move
@@ -66,6 +72,11 @@ def move(board: Board, square: Square):
     board.selected_square.piece = Piece(None)
 
 def update(board: Board, square: Square):
+    """
+    Updates the two squares involved in a move as opposed to the whole board
+    :param board: sic.
+    :param square: sic.
+    """
     board.selected_square.update_square()
     square.update_square()
     board.selected_square = None

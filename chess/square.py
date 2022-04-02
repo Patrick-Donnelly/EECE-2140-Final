@@ -52,6 +52,7 @@ class Square:
         self.square = Frame(self.master, bg=self.color, width=80, height=80)
 
         if self.container.is_flipped:
+            # Flipping twice, once over each axis, is equivalent to a 180-degree rotation
             row = 7-self.rank
             col = 7-self.file
         else:
@@ -60,6 +61,7 @@ class Square:
 
         self.square.grid(row=row, column=col)
 
+        # Place a button over top of the frame
         Button(self.square, bg=self.color, relief='flat', text=self.piece.label, font=self.font,
                command=lambda: master_button_action(self.container, self)).place(relheight=1, relwidth=1)
 

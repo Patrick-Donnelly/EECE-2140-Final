@@ -13,7 +13,7 @@ class GUI:
         self.root.geometry('640x720')
         self.root.resizable(False, False)
 
-        # Call and place the chessboard
+        # Call and place the chessboard, which will initialize itself upon instantiation
         self.board = Board(self.root)
 
         self.generate_menu()
