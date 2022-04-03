@@ -1,6 +1,5 @@
 # board.py by Patrick J. Donnelly
 from tkinter import Tk, Frame
-from .gui import GUI
 from .square import Square
 
 class Board:
