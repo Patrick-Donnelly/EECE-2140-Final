@@ -1,13 +1,14 @@
 # square.py by Patrick J. Donnelly
-from tkinter import Frame, Button
+from tkinter import Frame, Button, Label, NW, SE
 from tkinter.font import Font
+key = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g', 7: 'h'}
 
 # While originally intended to be a simple container for Button() objects, since Tkinter doesn't allow pixel
 # modification of Button() objects, the object now houses each a frame and a button.
 
 class Square:
     """An abstraction of a chessboard square to hold Piece() objects with TkInterface properties"""
-    def __init__(self, master: Frame, container, rank: int, file: int, rank_label=None, file_label=None):
+    def __init__(self, master: Frame, container, rank: int, file: int, rank_label=False, file_label=False):
         from .logic.initialization import get_piece, get_color
 
         self.master = master
@@ -23,6 +24,8 @@ class Square:
         self.font = None
 
         self.square = None
+        self.button = None
+
         self.is_inverted = False
 
         self.set_square()
@@ -31,8 +34,6 @@ class Square:
         """
         Set the initial properties of the square, taking into account rank and file labels
         """
-        from .logic.master_logic import master_button_action
-
         # Create the frame according to the class parameters
         self.square = Frame(self.master, bg=self.get_color(), width=80, height=80)
         self.square.grid(row=self.rank, column=self.file)
@@ -40,9 +41,31 @@ class Square:
         # The display font of the chess pieces
         self.font = Font(root=self.square, family='Times', size=50)
 
-        # Place a button over top of the frame
-        Button(self.square, bg=self.get_color(), relief='flat', text=self.piece.label, font=self.font,
-               command=lambda: master_button_action(self.container, self)).place(relheight=1, relwidth=1)
+        self.set_button()
+
+    def set_button(self):
+        """
+        Sets the overlay button for the square
+        :return:
+        """
+        from .logic.master_logic import master_button_action
+
+        self.button = Button(self.square, bg=self.get_color(), relief='flat', text=self.piece.label, font=self.font,
+                             command=lambda: master_button_action(self.container, self))
+
+        self.button.place(relheight=1, relwidth=1)
+
+        self.set_label()
+
+    def set_label(self):
+        """
+        Sets the label of the button, there is any
+        """
+        if self.rank_label:
+            Label(self.button, bg=self.get_color(), text=key[self.file]).place(relx=.80, rely=.70)
+
+        if self.file_label:
+            Label(self.button, bg=self.get_color(), text=str(8-self.rank)).place(relx=0, rely=0)
 
     def update(self):
         """
@@ -65,8 +88,7 @@ class Square:
         self.square.grid(row=row, column=col)
 
         # Place a button over top of the frame
-        Button(self.square, bg=self.get_color(), relief='flat', text=self.piece.label, font=self.font,
-               command=lambda: master_button_action(self.container, self)).place(relheight=1, relwidth=1)
+        self.set_button()
 
     def get_color(self) -> str:
         """
@@ -83,5 +105,4 @@ class Square:
         Defines the string of a square
         :return: The string representation of a given square
         """
-        key = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g', 7: 'h'}
         return str(self.piece) + key[self.file] + str(8 - self.rank)

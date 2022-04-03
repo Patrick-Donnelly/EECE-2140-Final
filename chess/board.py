@@ -5,12 +5,13 @@ from .square import Square
 
 class Board:
     """An abstraction of a chessboard to hold Square() objects with TkInterface properties"""
-    def __init__(self, master: Tk):
+    def __init__(self, master: Tk, container: GUI):
         """
         Creates the board
         :param master: The superior frame of the board; a Tk() objects
         """
         self.root = master
+        self.container = container
         self.frame = Frame(master)
         self.squares = [[[None] for _ in range(8)] for _ in range(8)]  # Standard 8x8 chessboard
         self.move = True  # True: white, False: black; white begins
@@ -26,7 +27,7 @@ class Board:
         """
         for i in range(8):
             for j in range(8):
-                self.squares[i][j] = Square(self.frame, self, i, j)
+                self.squares[i][j] = Square(self.frame, self, i, j, i == 7, j == 0)
 
     def update_squares(self):
         for rank in self.squares:

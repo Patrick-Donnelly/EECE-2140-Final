@@ -10,6 +10,3 @@ def reset_game(board: Board):
     board.move = True
     board.is_flipped = False
     # Doesn't require an update command because squares are destroyed and re-instantiated
-
-def undo_last_move():
-    pass
