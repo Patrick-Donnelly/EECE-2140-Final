@@ -1,9 +1,35 @@
-# movement.py by Patrick J. Donnelly
+# piece_movement.py by Patrick J. Donnelly
 from ..board import Board
 from ..square import Square
 from ..pieces import *
 
 # NOTE: The coordinate system for this is unusual. All coordinates are relative to the forward direction of the piece.
+
+def is_legal(board: Board, square: Square) -> bool:
+    """
+    A bloated switch to direct move to proper logic
+    :param board: sic.
+    :param square: sic.
+    """
+    attacker = board.selected_square.piece
+
+    if square.piece.team == attacker.team:
+        return False
+
+    if isinstance(attacker, Pawn):
+        return is_legal_pawn(board, square)
+    elif isinstance(attacker, Knight):
+        return is_legal_knight(board, square)
+    elif isinstance(attacker, Bishop):
+        return is_legal_bishop(board, square)
+    elif isinstance(attacker, Rook):
+        return is_legal_rook(board, square)
+    elif isinstance(attacker, Queen):
+        return is_legal_queen(board, square)
+    elif isinstance(attacker, King):
+        return is_legal_king(board, square)
+    else:
+        raise RuntimeError("UNKNOWN ERROR")
 
 def is_legal_pawn(board: Board, defender: Square) -> bool:
     """
