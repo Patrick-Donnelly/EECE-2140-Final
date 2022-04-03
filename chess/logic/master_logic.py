@@ -37,6 +37,7 @@ def attempt_capture(board: Board, square: Square):
     """
     # If the attempted ove is legal, execute; else, abort
     if is_legal(board, square):
+        board.container.history.append(board)
         move(board, square)
         board.move = not board.move
         remove_highlights(board)

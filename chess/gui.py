@@ -9,10 +9,11 @@ class GUI:
         self.root = Tk()
         self.history = list()
 
-        # Creates a non-resizable 640x720 window named 'Chess'
+        # Creates a non-resizable 640x720 window named 'Chess' situated on top of all windows
         self.root.title("Chess")
         self.root.geometry('640x720')
         self.root.resizable(False, False)
+        self.root.wm_attributes('-topmost', True)
 
         # Call and place the chessboard, which will initialize itself upon instantiation
         self.board = Board(self.root, self)
@@ -28,8 +29,7 @@ class GUI:
         H, W, P = 4, 16, 2  # Height, Width, Pad
         reset = Button(self.root, height=H, width=W, text="RESTART", command=lambda: reset_game(self.board))
         flip = Button(self.root, height=H, width=W, text="FLIP BOARD", command=lambda: flip_board(self.board))
-        undo = Button(self.root, height=H, width=W, text="UNDO MOVE", command=lambda: self.undo_last_move(),
-                      state=ACTIVE if self.history else DISABLED)
+        undo = Button(self.root, height=H, width=W, text="UNDO MOVE", command=lambda: self.undo_last_move())
         end = Button(self.root, height=H, width=W, text="EXIT", command=lambda: self.root.destroy())
 
         reset.grid(row=9, rowspan=1, column=0, columnspan=2, padx=P)
@@ -41,8 +41,7 @@ class GUI:
         """
         Undoes the last move, if there are any available
         """
-        if self.history:
-            self.board = self.history.pop()
+        pass
 
     def begin_game(self):
         """

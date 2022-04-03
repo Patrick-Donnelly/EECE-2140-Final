@@ -6,7 +6,7 @@ def flip_board(board: Board):
     board.update_squares()
 
 def reset_game(board: Board):
-    board.make_squares()
     board.move = True
     board.is_flipped = False
+    board.make_squares()
     # Doesn't require an update command because squares are destroyed and re-instantiated

@@ -1,5 +1,5 @@
 # square.py by Patrick J. Donnelly
-from tkinter import Frame, Button, Label, NW, SE
+from tkinter import Frame, Button, Label
 from tkinter.font import Font
 key = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g', 7: 'h'}
 
@@ -62,10 +62,16 @@ class Square:
         Sets the label of the button, there is any
         """
         if self.rank_label:
-            Label(self.button, bg=self.get_color(), text=key[self.file]).place(relx=.80, rely=.70)
+            if self.container.is_flipped:
+                Label(self.button, bg=self.get_color(), text=key[self.file]).place(relx=0, rely=0)
+            else:
+                Label(self.button, bg=self.get_color(), text=key[self.file]).place(relx=.80, rely=.70)
 
         if self.file_label:
-            Label(self.button, bg=self.get_color(), text=str(8-self.rank)).place(relx=0, rely=0)
+            if self.container.is_flipped:
+                Label(self.button, bg=self.get_color(), text=str(8 - self.rank)).place(relx=.80, rely=.70)
+            else:
+                Label(self.button, bg=self.get_color(), text=str(8-self.rank)).place(relx=0, rely=0)
 
     def update(self):
         """
