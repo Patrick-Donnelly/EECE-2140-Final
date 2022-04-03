@@ -26,6 +26,9 @@ def highlight_legal_moves(board: Board):
     Highlights all the legal spaces available to the selected piece
     :param board: sic.
     """
+    board.selected_square.is_inverted = True
+    board.selected_square.update()
+
     for rank in board.squares:
         for square in rank:
             if is_legal(board, square):
@@ -43,12 +46,11 @@ def remove_highlights(board: Board):
                 square.is_inverted = False
                 square.update()
 
-def move(board: Board, square: Square):
+def move(square: Square):
     """
     Moves one piece from the given space to the selected space
-    :param board: sic.
     :param square: sic.
     """
-    board.selected_square.piece.has_moved = True
-    square.piece = board.selected_square.piece
-    board.selected_square.piece = Piece(None)
+    square.container.selected_square.piece.has_moved = True
+    square.piece = square.container.selected_square.piece
+    square.container.selected_square.piece = Piece(None)

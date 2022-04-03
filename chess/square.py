@@ -51,7 +51,7 @@ class Square:
         from .logic.master_logic import master_button_action
 
         self.button = Button(self.square, bg=self.get_color(), relief='flat', text=self.piece.label, font=self.font,
-                             command=lambda: master_button_action(self.container, self))
+                             command=lambda: master_button_action(self))
 
         self.button.place(relheight=1, relwidth=1)
 
