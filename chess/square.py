@@ -23,7 +23,7 @@ class Square:
         self.font = None
 
         self.square = None
-        self.inverted = False
+        self.is_inverted = False
 
         self.set_square()
 
@@ -73,7 +73,7 @@ class Square:
         Returns the correct color for whether the square is inverted or not
         :return: A string representing the appropriate color for the square
         """
-        if self.inverted:
+        if self.is_inverted:
             return self.color_palate[1]
         else:
             return self.color_palate[0]

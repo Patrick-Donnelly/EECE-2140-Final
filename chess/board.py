@@ -29,6 +29,6 @@ class Board:
                 self.squares[i][j] = Square(self.frame, self, i, j)
 
     def update_squares(self):
-        for i in range(8):
-            for j in range(8):
-                self.squares[i][j].update()
+        for rank in self.squares:
+            for square in rank:
+                square.update()

@@ -14,15 +14,61 @@ def master_button_action(board: Board, square: Square):
     if board.selected_square:
         # If the selected square is the given square, abort capture
         if board.selected_square is square:
-            board.selected_square = None
+            abort_move(board)
         else:
             # If the pieces are on opposite teams, attempt capture; else, abort
             if square.piece.team != board.move:
                 attempt_capture(board, square)
             else:
-                board.selected_square = None
+                abort_move(board)
     elif square.piece.team == board.move:
         board.selected_square = square
+        if has_legal_moves(board):
+            highlight_legal_moves(board)
+        else:
+            abort_move(board)
+
+def abort_move(board: Board):
+    """
+    Resets the board to a selection state
+    :param board: sic.
+    """
+    board.selected_square = None
+    remove_highlights(board)
+
+def has_legal_moves(board: Board) -> bool:
+    """
+    Determines whether a given piece has legal moves
+    :param board: sic.
+    :return: A Boolean representing whether a given piece has legal moves
+    """
+    for rank in board.squares:
+        for square in rank:
+            if is_legal(board, square):
+                return True
+    return False
+
+def highlight_legal_moves(board: Board):
+    """
+    Highlights all the legal spaces available to the selected piece
+    :param board: sic.
+    """
+    for rank in board.squares:
+        for square in rank:
+            if is_legal(board, square):
+                square.is_inverted = True
+                square.update()
+
+def remove_highlights(board: Board):
+    """
+    Removes any highlighting from all squares on the board
+    :param board: sic.
+    """
+    for rank in board.squares:
+        for square in rank:
+            if square.is_inverted:
+                square.is_inverted = False
+                square.update()
 
 def attempt_capture(board: Board, square: Square):
     """
@@ -34,9 +80,10 @@ def attempt_capture(board: Board, square: Square):
     if is_legal(board, square):
         move(board, square)
         board.move = not board.move
+        remove_highlights(board)
         update(board, square)
     else:
-        board.selected_square = None
+        abort_move(board)
 
 def is_legal(board: Board, square: Square) -> bool:
     """
@@ -45,6 +92,9 @@ def is_legal(board: Board, square: Square) -> bool:
     :param square: sic.
     """
     attacker = board.selected_square.piece
+
+    if square.piece.team == attacker.team:
+        return False
 
     if isinstance(attacker, Pawn):
         return is_legal_pawn(board, square)

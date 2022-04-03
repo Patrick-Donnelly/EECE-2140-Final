@@ -2,8 +2,8 @@
 from ..pieces import *
 
 # Hex colors for black and white squares, both neutral and selected
-WHITE_SQUARE = '#bfbfbf', '#404040'
-BLACK_SQUARE = '#994d00', "#66b2ff"
+WHITE_SQUARE = '#bfbfbf', '#ff00ff'
+BLACK_SQUARE = '#994d00', "#ff00ff"
 
 def get_color(rank: int, file: int) -> (str, str):
     """
