@@ -1,7 +1,6 @@
 # gui.py by Patrick J. Donnelly
 from tkinter import Tk, Button
 from .board import Board
-
 from .logic.initialization import BLACK, WHITE, H, W, P
 
 class GUI:

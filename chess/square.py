@@ -3,6 +3,7 @@ from tkinter import Frame, Button, Label
 from tkinter.font import Font
 from .logic.initialization import get_color, get_piece
 
+# A universal key which translates file number into file letters
 key = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g', 7: 'h'}
 
 # While originally intended to be a simple container for Button() objects, since Tkinter doesn't allow pixel

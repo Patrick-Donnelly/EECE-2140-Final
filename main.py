@@ -1,7 +1,7 @@
 # main.py by Patrick J. Donnelly
 # Driver of program
-import chess as board
+import chess
 
 # Creates and begins a chess game
-game = board.Chess()
+game = chess.Chess()
 game.begin_game()

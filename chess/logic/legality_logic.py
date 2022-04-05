@@ -166,6 +166,6 @@ class LegalityLogic:
         x = self.move_logic.board_logic.board.selected_square.rank
         y = self.move_logic.board_logic.board.selected_square.file
         if self.move_logic.board_logic.board.selected_square.piece.team:
-            return self.move_logic.board_logic.board.squares[x - dx][y + dy]
+            return self.move_logic.board_logic.board.squares[x-dx][y+dy]
         else:
-            return self.move_logic.board_logic.board.squares[x + dx][y - dy]
+            return self.move_logic.board_logic.board.squares[x+dx][y-dy]
