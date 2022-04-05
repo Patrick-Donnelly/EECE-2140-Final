@@ -21,7 +21,7 @@ class GUI:
         self.root.wm_attributes('-topmost', True)
 
         # Call and place the chessboard, which will initialize itself upon instantiation
-        self.board = Board(self.root)
+        self.board = Board(self.root, self)
 
         self.update_menu()
 

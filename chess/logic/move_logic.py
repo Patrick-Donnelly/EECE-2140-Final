@@ -41,6 +41,7 @@ class MoveLogic:
             square.container.move = not square.container.move
             self.board_logic.remove_highlights()
             self.update(square)
+            self.board_logic.gui.update_menu()
         else:
             self.board_logic.abort_move()
 

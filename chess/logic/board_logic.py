@@ -4,8 +4,9 @@ from .legality_logic import LegalityLogic
 
 class BoardLogic:
     """Represents the board-level logic of the program"""
-    def __init__(self, board):
+    def __init__(self, board, gui):
         self.board = board
+        self.gui = gui
         self.move_logic = MoveLogic(self)
         self.legality_logic = LegalityLogic(self.move_logic)
 
