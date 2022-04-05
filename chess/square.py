@@ -1,6 +1,8 @@
 # square.py by Patrick J. Donnelly
 from tkinter import Frame, Button, Label
 from tkinter.font import Font
+from .logic.initialization import get_color, get_piece
+
 key = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g', 7: 'h'}
 
 # While originally intended to be a simple container for Button() objects, since Tkinter doesn't allow pixel
@@ -8,11 +10,10 @@ key = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g', 7: 'h'}
 
 class Square:
     """An abstraction of a chessboard square to hold Piece() objects with TkInterface properties"""
-    def __init__(self, master: Frame, container, rank: int, file: int, rank_label=False, file_label=False):
-        from .logic.initialization import get_piece, get_color
-
+    def __init__(self, master, container, logic, rank, file, rank_label=False, file_label=False):
         self.master = master
         self.container = container
+        self.logic = logic
 
         self.rank = rank
         self.file = file
@@ -48,10 +49,9 @@ class Square:
         Sets the overlay button for the square
         :return:
         """
-        from .logic.master_logic import master_button_action
 
         self.button = Button(self.square, bg=self.get_color(), relief='flat', text=self.piece.label, font=self.font,
-                             command=lambda: master_button_action(self))
+                             command=lambda: self.logic.master_button_action(self))
 
         self.button.place(relheight=1, relwidth=1)
 
@@ -77,8 +77,6 @@ class Square:
         """
         Updates the properties of a given square
         """
-        from .logic.master_logic import master_button_action
-
         # Button automatically destroyed
         self.square.destroy()
         self.square = Frame(self.master, bg=self.get_color(), width=80, height=80)
@@ -96,7 +94,7 @@ class Square:
         # Place a button over top of the frame
         self.set_button()
 
-    def get_color(self) -> str:
+    def get_color(self):
         """
         Returns the correct color for whether the square is inverted or not
         :return: A string representing the appropriate color for the square

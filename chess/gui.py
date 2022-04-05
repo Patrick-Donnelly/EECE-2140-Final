@@ -1,12 +1,12 @@
 # gui.py by Patrick J. Donnelly
 from tkinter import Tk, Button
-from .logic.menuing import *
+from .board import Board
+
+from .logic.initialization import BLACK, WHITE, H, W, P
 
 class GUI:
     """The beating heart of the chess program; handles TkInterface objects"""
     def __init__(self):
-        from .board import Board
-
         self.root = Tk()
 
         self.reset = None
@@ -31,15 +31,15 @@ class GUI:
         """
         self.delete_menu()
 
-        bg = get_bg(self.board.move)
-        fg = get_fg(self.board.move)
+        bg = self.get_bg()
+        fg = self.get_fg()
 
         self.reset = Button(self.root, height=H, width=W, bg=bg, fg=fg, text="RESTART",
-                            command=lambda: reset_game(self.board))
+                            command=lambda: self.board.reset_game())
         self.flip = Button(self.root, height=H, width=W, bg=bg, fg=fg, text="FLIP BOARD",
-                           command=lambda: flip_board(self.board))
-        self.indicator = Button(self.root, height=H, width=W, bg=bg, fg=fg, text=get_text(self.board.move),
-                                command=lambda: set_view(self.board))
+                           command=lambda: self.board.flip_board())
+        self.indicator = Button(self.root, height=H, width=W, bg=bg, fg=fg, text=self.get_text(),
+                                command=lambda: self.board.set_view())
         self.end = Button(self.root, height=H, width=W, bg=bg, fg=fg, text="EXIT",
                           command=lambda: self.root.destroy())
 
@@ -60,6 +60,24 @@ class GUI:
             self.indicator.destroy()
         if self.end:
             self.end.destroy()
+
+    def get_bg(self) -> str:
+        if self.board.move:
+            return WHITE
+        else:
+            return BLACK
+
+    def get_fg(self) -> str:
+        if self.board.move:
+            return BLACK
+        else:
+            return WHITE
+
+    def get_text(self) -> str:
+        if self.board.move:
+            return "WHITE TO MOVE"
+        else:
+            return "BLACK TO MOVE"
 
     def begin_game(self):
         """
