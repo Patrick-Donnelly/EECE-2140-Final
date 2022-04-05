@@ -6,7 +6,7 @@ class Piece:
     LABELS = [['\u265A', '\u2654'], ['\u265B', '\u2655'], ['\u265C', '\u2656'],
               ['\u265D', '\u2657'], ['\u265E', '\u2658'], ['\u265F', '\u2659']]
 
-    def __init__(self, team):
+    def __init__(self, team: bool or None):
         """
         Creates a general piece object
         :param team: The team of the piece: None, True (white), or False (black)

@@ -10,24 +10,30 @@ key = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g', 7: 'h'}
 
 class Square:
     """An abstraction of a chessboard square to hold Piece() objects with TkInterface properties"""
-    def __init__(self, master, container, logic, rank, file, rank_label=False, file_label=False):
+    def __init__(self, master, container, logic, rank: int, file: int, has_rank_label=False, has_file_label=False):
         self.master = master
         self.container = container
         self.logic = logic
 
+        # By convention: rank = row, file = column
         self.rank = rank
         self.file = file
-        self.rank_label = rank_label
-        self.file_label = file_label
 
-        self.color_palate = get_color(rank, file)
+        # Boolean; states whether the square should have its rank and/or file labeled
+        self.has_rank_label = has_rank_label
+        self.has_file_label = has_file_label
+
+        # Initializes the square with the appropriate piece of the appropriate team via .logic.initialization functions
+        self.color_palette = get_color(rank, file)
         self.piece = get_piece(rank, file)
         self.font = None
 
+        # Placeholders for the tkinter.Frame() and tkinter.Button() objects
         self.square = None
         self.button = None
 
-        self.is_inverted = False
+        # Controls whether the square is highlighted when drawn
+        self.is_highlighted = False
 
         self.set_square()
 
@@ -59,15 +65,15 @@ class Square:
 
     def set_label(self):
         """
-        Sets the label of the button, there is any
+        Sets the label of the button, if there is any
         """
-        if self.rank_label:
+        if self.has_rank_label:
             if self.container.is_flipped:
                 Label(self.button, bg=self.get_color(), text=key[self.file]).place(relx=0, rely=0)
             else:
                 Label(self.button, bg=self.get_color(), text=key[self.file]).place(relx=.80, rely=.70)
 
-        if self.file_label:
+        if self.has_file_label:
             if self.container.is_flipped:
                 Label(self.button, bg=self.get_color(), text=str(8 - self.rank)).place(relx=.80, rely=.70)
             else:
@@ -77,7 +83,7 @@ class Square:
         """
         Updates the properties of a given square
         """
-        # Button automatically destroyed
+        # Button automatically destroyed and redrawn; cannot ever be empty
         self.square.destroy()
         self.square = Frame(self.master, bg=self.get_color(), width=80, height=80)
 
@@ -89,6 +95,7 @@ class Square:
             row = self.rank
             col = self.file
 
+        # Draws the square at the appropriate relative coordinates
         self.square.grid(row=row, column=col)
 
         # Place a button over top of the frame
@@ -99,10 +106,10 @@ class Square:
         Returns the correct color for whether the square is inverted or not
         :return: A string representing the appropriate color for the square
         """
-        if self.is_inverted:
-            return self.color_palate[1]
+        if self.is_highlighted:
+            return self.color_palette[1]
         else:
-            return self.color_palate[0]
+            return self.color_palette[0]
 
     def __str__(self):
         """

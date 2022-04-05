@@ -5,11 +5,12 @@ from ..pieces import *
 WHITE_SQUARE = '#bfbfbf', '#ff00ff'
 BLACK_SQUARE = '#994d00', "#ff00ff"
 
-H, W, P = 4, 16, 2  # Button Height, Width, Padding
-
 # Menu Colors
 BLACK = '#000000'
 WHITE = '#ffffff'
+
+# Menu Button Height, Width, Padding
+H, W, P = 4, 16, 2
 
 def get_color(rank: int, file: int) -> (str, str):
     """

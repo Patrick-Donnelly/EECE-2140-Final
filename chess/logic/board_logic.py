@@ -32,13 +32,13 @@ class BoardLogic:
         """
         Highlights all the legal spaces available to the selected piece
         """
-        self.board.selected_square.is_inverted = True
+        self.board.selected_square.is_highlighted = True
         self.board.selected_square.update()
 
         for rank in self.board.squares:
             for square in rank:
                 if self.legality_logic.is_legal(square):
-                    square.is_inverted = True
+                    square.is_highlighted = True
                     square.update()
 
     def remove_highlights(self):
@@ -47,6 +47,6 @@ class BoardLogic:
         """
         for rank in self.board.squares:
             for square in rank:
-                if square.is_inverted:
-                    square.is_inverted = False
+                if square.is_highlighted:
+                    square.is_highlighted = False
                     square.update()

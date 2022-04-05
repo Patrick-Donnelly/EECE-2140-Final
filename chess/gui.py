@@ -7,8 +7,11 @@ from .logic.initialization import BLACK, WHITE, H, W, P
 class GUI:
     """The beating heart of the chess program; handles TkInterface objects"""
     def __init__(self):
+        """Creates and initializes the game GUI"""
+        # Creates the root window for the game
         self.root = Tk()
 
+        # Menu button placeholders
         self.reset = None
         self.flip = None
         self.indicator = None
@@ -23,22 +26,26 @@ class GUI:
         # Call and place the chessboard, which will initialize itself upon instantiation
         self.board = Board(self.root, self)
 
+        # Initializes the menu
         self.update_menu()
 
     def update_menu(self):
         """
         Creates the menu of buttons placed below the chessboard
         """
+        # Deletes the current menu, if present
         self.delete_menu()
 
-        bg = self.get_bg()
-        fg = self.get_fg()
+        # Get background and foreground colors for menu; changes depending on next move
+        bg = WHITE if self.board.move else BLACK
+        fg = BLACK if self.board.move else WHITE
+        text = "WHITE TO MOVE" if self.board.move else "BLACK TO MOVE"
 
         self.reset = Button(self.root, height=H, width=W, bg=bg, fg=fg, text="RESTART",
                             command=lambda: self.board.reset_game())
         self.flip = Button(self.root, height=H, width=W, bg=bg, fg=fg, text="FLIP BOARD",
                            command=lambda: self.board.flip_board())
-        self.indicator = Button(self.root, height=H, width=W, bg=bg, fg=fg, text=self.get_text(),
+        self.indicator = Button(self.root, height=H, width=W, bg=bg, fg=fg, text=text,
                                 command=lambda: self.board.set_view())
         self.end = Button(self.root, height=H, width=W, bg=bg, fg=fg, text="EXIT",
                           command=lambda: self.root.destroy())
@@ -50,8 +57,9 @@ class GUI:
 
     def delete_menu(self):
         """
-        Deletes the contents of the current menu
+        Deletes the contents of the current menu, if it exists
         """
+        # For each button, if it exists, delete it via tkinter.Button.destroy()
         if self.reset:
             self.reset.destroy()
         if self.flip:
@@ -60,24 +68,6 @@ class GUI:
             self.indicator.destroy()
         if self.end:
             self.end.destroy()
-
-    def get_bg(self) -> str:
-        if self.board.move:
-            return WHITE
-        else:
-            return BLACK
-
-    def get_fg(self) -> str:
-        if self.board.move:
-            return BLACK
-        else:
-            return WHITE
-
-    def get_text(self) -> str:
-        if self.board.move:
-            return "WHITE TO MOVE"
-        else:
-            return "BLACK TO MOVE"
 
     def begin_game(self):
         """

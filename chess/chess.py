@@ -1,9 +1,8 @@
 # chess.py by Patrick J. Donnelly
-class Chess:
-    """A wrapper class for the chess game"""
-    def __init__(self):
-        from .gui import GUI
-        self.gui = GUI()
+from .gui import GUI
 
-    def begin_game(self):
-        self.gui.begin_game()
+class Chess(GUI):
+    """A wrapper class for the chess game; renamed for aesthetic"""
+    def __init__(self):
+        """Creates the GUI and, consequently, the chess game"""
+        super().__init__()
