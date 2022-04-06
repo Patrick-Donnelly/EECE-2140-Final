@@ -142,6 +142,19 @@ class LegalityLogic:
         if dx in [-1, 0, 1] and dy in [-1, 0, 1]:
             return True
         else:
+            return self.check_castle(defender)
+
+    def check_en_passant(self, defender) -> bool:
+        pass
+
+    def check_castle(self, defender) -> bool:
+        squares = self.move_logic.board_logic.board.squares
+        attacker = self.move_logic.board_logic.board.selected_square
+
+        if defender.rank in [0, 7] and defender.file in [2, 6] and not attacker.piece.has_moved:
+            rook = squares[7*attacker.piece.team][7*(defender.file == 6)]
+            return isinstance(rook.piece, Rook) and not rook.piece.has_moved and self.is_legal_rook(defender)
+        else:
             return False
 
     @staticmethod
@@ -160,8 +173,8 @@ class LegalityLogic:
     def get_relative(self, dx: int, dy: int):
         """
         Returns the square relative to a given square via standardized units
-        :param dx: sic.
-        :param dy: sic.
+        :param dx: VERTICAL DISPLACEMENT
+        :param dy: HORIZONTAL DISPLACEMENT
         """
         x = self.move_logic.board_logic.board.selected_square.rank
         y = self.move_logic.board_logic.board.selected_square.file
