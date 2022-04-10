@@ -126,7 +126,7 @@ class LegalityLogic:
         :param defender: The defending square
         :return: A Boolean corresponding to the legality of the move
         """
-        # A queen is a combination bishop and rook
+        # A queen is a combination a bishop and a rook
         return self.is_legal_bishop(defender) or self.is_legal_rook(defender)
 
     def is_legal_king(self, defender) -> bool:

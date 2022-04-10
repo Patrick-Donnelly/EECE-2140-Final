@@ -12,6 +12,16 @@ key = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g', 7: 'h'}
 class Square:
     """An abstraction of a chessboard square to hold Piece() objects with TkInterface properties"""
     def __init__(self, master, container, logic, rank: int, file: int, has_rank_label=False, has_file_label=False):
+        """
+        Creates a square object
+        :param master: The Tkinter container of the square
+        :param container: The superior Board() object
+        :param logic: The BoardLogic() object of the superior Board()
+        :param rank: The rank of the square
+        :param file: The file of the Square
+        :param has_rank_label: A Boolean signaling whether the square's rank should be labeled
+        :param has_file_label: A Boolean signaling whether the square's file should be labeled
+        """
         self.master = master
         self.container = container
         self.logic = logic

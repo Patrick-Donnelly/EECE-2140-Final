@@ -8,13 +8,14 @@ class Board:
     def __init__(self, master, container):
         """
         Creates the board
-        :param master: The superior frame of the board; a Tk() objects
+        :param master: The superior Frame() object of the board; a Tk() objects
+        :param container: The superior GUI() object of the Board()
         """
         self.root = master
         self.frame = Frame(master)
         self.logic = BoardLogic(self, container)
 
-        self.squares = [[[None] for _ in range(8)] for _ in range(8)]  # Standard 8x8 chessboard
+        self.squares = [[None for _ in range(8)] for _ in range(8)]  # Standard 8x8 chessboard
 
         self.move = True  # The team of the current move; True if white, else False if black
         self.selected_square = None  # The current highlighted square on the board; by default is empty
