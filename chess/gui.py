@@ -1,10 +1,10 @@
 # gui.py by Patrick J. Donnelly
-from tkinter import Tk, Button
+from tkinter import Tk, Button, RAISED
 from .board import Board
-from .logic.initialization import BLACK, WHITE, H, W, P
+from .logic.initialization import BG, BLACK, WHITE, H, W, PX, PY, BW
 
 class GUI:
-    """The beating heart of the chess program; handles TkInterface objects"""
+    """The beating heart of the chess program; handles TkInterface objects and contains lesser containers"""
     def __init__(self):
         """Creates and initializes the game GUI"""
         # Creates the root window for the game
@@ -21,6 +21,7 @@ class GUI:
         self.root.geometry('640x720')
         self.root.resizable(False, False)
         self.root.wm_attributes('-topmost', True)
+        self.root.config(bg=BG)
 
         # Call and place the chessboard, which will initialize itself upon instantiation
         self.board = Board(self.root, self)
@@ -40,19 +41,19 @@ class GUI:
         fg = BLACK if self.board.move else WHITE
         text = "WHITE TO MOVE" if self.board.move else "BLACK TO MOVE"
 
-        self.reset = Button(self.root, height=H, width=W, bg=bg, fg=fg, text="RESTART",
+        self.reset = Button(self.root, height=H, width=W, bg=bg, fg=fg, text="RESTART", relief=RAISED, borderwidth=BW,
                             command=lambda: self.board.reset_game())
-        self.flip = Button(self.root, height=H, width=W, bg=bg, fg=fg, text="FLIP BOARD",
+        self.flip = Button(self.root, height=H, width=W, bg=bg, fg=fg, text="FLIP BOARD", relief=RAISED, borderwidth=BW,
                            command=lambda: self.board.flip_board())
-        self.indicator = Button(self.root, height=H, width=W, bg=bg, fg=fg, text=text,
+        self.indicator = Button(self.root, height=H, width=W, bg=bg, fg=fg, text=text, relief=RAISED, borderwidth=BW,
                                 command=lambda: self.board.set_view())
-        self.end = Button(self.root, height=H, width=W, bg=bg, fg=fg, text="EXIT",
+        self.end = Button(self.root, height=H, width=W, bg=bg, fg=fg, text="EXIT", relief=RAISED, borderwidth=BW,
                           command=lambda: self.root.destroy())
 
-        self.reset.grid(row=9, rowspan=1, column=0, columnspan=2, padx=P)
-        self.flip.grid(row=9, rowspan=1, column=2, columnspan=2, padx=P)
-        self.indicator.grid(row=9, rowspan=1, column=4, columnspan=2, padx=P)
-        self.end.grid(row=9, rowspan=1, column=6, columnspan=2, padx=P)
+        self.reset.grid(row=9, rowspan=1, column=0, columnspan=2, padx=PX, pady=PY)
+        self.flip.grid(row=9, rowspan=1, column=2, columnspan=2, padx=PX, pady=PY)
+        self.indicator.grid(row=9, rowspan=1, column=4, columnspan=2, padx=PX, pady=PY)
+        self.end.grid(row=9, rowspan=1, column=6, columnspan=2, padx=PX, pady=PY)
 
     def delete_menu(self):
         """

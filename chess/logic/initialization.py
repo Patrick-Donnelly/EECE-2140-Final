@@ -1,6 +1,9 @@
 # initialization.py by Patrick J. Donnelly
 from ..pieces import *
 
+# Main Window Background
+BG = "#ffeecc"
+
 # Hex colors for black and white squares, both neutral and selected
 WHITE_SQUARE = '#bfbfbf', '#ff00ff'
 BLACK_SQUARE = '#994d00', "#ff00ff"
@@ -9,8 +12,12 @@ BLACK_SQUARE = '#994d00', "#ff00ff"
 BLACK = '#000000'
 WHITE = '#ffffff'
 
-# Menu Button Height, Width, Padding
-H, W, P = 4, 16, 2
+# Menu height, width, horizontal padding, vertical padding, border width
+H = 3
+W = 14
+PX = 7
+PY = 5
+BW = 4
 
 def get_color(rank: int, file: int) -> (str, str):
     """
