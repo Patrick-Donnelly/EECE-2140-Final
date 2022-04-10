@@ -10,7 +10,7 @@ class LegalityLogic:
     def is_legal(self, square) -> bool:
         """
         A bloated switch to direct move to proper logic
-        :param square: sic.
+        :param square: ditto
         """
         attacker = self.move_logic.board_logic.board.selected_square.piece
 
@@ -161,8 +161,8 @@ class LegalityLogic:
     def get_dp(attacker, defender) -> (int, int):
         """
         Returns the difference in position of the defending square relative to the attacking piece
-        :param attacker: sic.
-        :param defender: sic.
+        :param attacker: ditto
+        :param defender: ditto
         :return: A tuple in the form of dx, dy
         """
         if attacker.piece.team:
@@ -170,15 +170,17 @@ class LegalityLogic:
         else:
             return defender.rank - attacker.rank, attacker.file - defender.file
 
+    # NOTE: COORDINATES ARE BACKWARD FROM MATHEMATICAL CONVENTION
     def get_relative(self, dx: int, dy: int):
         """
         Returns the square relative to a given square via standardized units
         :param dx: VERTICAL DISPLACEMENT
         :param dy: HORIZONTAL DISPLACEMENT
         """
-        x = self.move_logic.board_logic.board.selected_square.rank
-        y = self.move_logic.board_logic.board.selected_square.file
-        if self.move_logic.board_logic.board.selected_square.piece.team:
+        square = self.move_logic.board_logic.board.selected_square
+        x = square.rank
+        y = square.file
+        if square.piece.team:
             return self.move_logic.board_logic.board.squares[x-dx][y+dy]
         else:
             return self.move_logic.board_logic.board.squares[x+dx][y-dy]
