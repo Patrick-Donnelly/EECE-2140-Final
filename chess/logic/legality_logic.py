@@ -145,7 +145,24 @@ class LegalityLogic:
             return self.check_castle(defender)
 
     def check_en_passant(self, defender) -> bool:
-        pass
+        attacker = self.move_logic.board_logic.board.selected_square
+        dx, dy = self.get_dp(attacker, defender)
+
+        if dx != 1 or dy not in [-1, 1]:
+            return False
+
+        left = None
+        right = None
+
+        try:
+            left = self.get_relative(0, -1)
+        except IndexError:
+            pass
+
+        try:
+            right = self.get_relative(0, 1)
+        except IndexError:
+            pass
 
     def check_castle(self, defender) -> bool:
         squares = self.move_logic.board_logic.board.squares
