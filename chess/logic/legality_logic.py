@@ -51,7 +51,7 @@ class LegalityLogic:
                 return False
         elif dy in [-1, 1]:  # By definition, must either be attempting to capture or is an illegal move
             if dx == 1:
-                return bool(defender.piece)
+                return bool(defender.piece) or self.check_en_passant(defender)
             else:
                 return False
         else:
@@ -148,21 +148,12 @@ class LegalityLogic:
         attacker = self.move_logic.board_logic.board.selected_square
         dx, dy = self.get_dp(attacker, defender)
 
-        if dx != 1 or dy not in [-1, 1]:
-            return False
+        if dy == -1:
+            piece = self.get_relative(0, -1).piece
+        else:
+            piece = self.get_relative(0, 1).piece
 
-        left = None
-        right = None
-
-        try:
-            left = self.get_relative(0, -1)
-        except IndexError:
-            pass
-
-        try:
-            right = self.get_relative(0, 1)
-        except IndexError:
-            pass
+        return piece is self.move_logic.en_passant
 
     def check_castle(self, defender) -> bool:
         squares = self.move_logic.board_logic.board.squares

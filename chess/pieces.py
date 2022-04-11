@@ -77,5 +77,4 @@ class Pawn(Piece):
     def __init__(self, team: bool):
         super().__init__(team)
         self.type = 5
-        self.en_passant = False
         self.set_label()

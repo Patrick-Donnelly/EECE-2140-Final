@@ -1,10 +1,11 @@
 # move_logic.py by Patrick J. Donnelly
-from ..pieces import Piece, King
+from ..pieces import Piece, King, Pawn
 
 class MoveLogic:
     """Represents the move-level logic of the program"""
     def __init__(self, board_logic):
         self.board_logic = board_logic
+        self.en_passant = None
 
     def master_button_action(self, square):
         """
@@ -30,15 +31,16 @@ class MoveLogic:
             else:
                 self.board_logic.abort_move()
 
-    def attempt_capture(self, square):
+    def attempt_capture(self, defender):
         """
         Attempts to capture the current square from the board's selected square
-        :param square: ditto
+        :param defender: ditto
         """
         # If the attempted ove is legal, execute; else, abort
-        if self.board_logic.legality_logic.is_legal(square):
-            self.move(square)
-            square.container.move = not square.container.move
+        if self.board_logic.legality_logic.is_legal(defender):
+            self.en_passant = None
+            self.move(defender)
+            defender.container.move = not defender.container.move
             self.board_logic.remove_highlights()
             self.board_logic.gui.update_menu()
         else:
@@ -50,6 +52,7 @@ class MoveLogic:
         :param defender: ditto
         """
         self.check_castle(defender)
+        self.check_en_passant(defender)
         self._move(self.board_logic.board.selected_square, defender)
         defender.container.selected_square = None
 
@@ -66,17 +69,38 @@ class MoveLogic:
         attacker.update()
         defender.update()
 
-    def check_castle(self, square):
+    def check_en_passant(self, defender):
+        """
+        Handles movement logic for en passant
+        :param defender: ditto
+        """
+        attacker = self.board_logic.board.selected_square
+
+        if not isinstance(attacker.piece, Pawn):
+            return
+
+        dp = self.board_logic.legality_logic.get_dp(self.board_logic.board.selected_square, defender)
+
+        if dp == (2, 0):
+            self.en_passant = attacker.piece
+
+        if dp in [(1, -1), (1, 1)] and not defender.piece:
+            logic = self.board_logic.legality_logic
+            pawn_square = logic.get_relative(0, dp[1])
+            pawn_square.piece = Piece(None)
+            pawn_square.update()
+
+    def check_castle(self, defender):
         """
         Handles the movement logic in the event of a castle
-        :param square: ditto
+        :param defender: ditto
         """
         attacker = self.board_logic.board.selected_square
 
         if not isinstance(attacker.piece, King) or attacker.piece.has_moved:
             return
 
-        dp = self.board_logic.legality_logic.get_dp(self.board_logic.board.selected_square, square)
+        dp = self.board_logic.legality_logic.get_dp(self.board_logic.board.selected_square, defender)
 
         # Since the rook and target are asymmetric across teams, but stay on the same rank, we can calculate dy and
         # extrapolate using the above generalized move function
