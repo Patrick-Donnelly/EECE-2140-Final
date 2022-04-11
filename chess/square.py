@@ -67,7 +67,8 @@ class Square:
         :return:
         """
 
-        self.button = Button(self.square, bg=self.get_color(), relief='flat', text=self.piece.label, font=self.font,
+        self.button = Button(self.square, bg=self.get_color(), activebackground=self.get_color(),
+                             relief='flat', text=self.piece.label, font=self.font,
                              command=lambda: self.logic.master_button_action(self))
 
         self.button.place(relheight=1, relwidth=1)
@@ -79,16 +80,27 @@ class Square:
         Sets the label of the button, if there is any
         """
         if self.has_rank_label:
+            label = self.get_label(True)
             if self.container.is_flipped:
-                Label(self.button, bg=self.get_color(), text=key[self.file]).place(relx=0, rely=0)
+                label.place(relx=0, rely=0)
             else:
-                Label(self.button, bg=self.get_color(), text=key[self.file]).place(relx=.80, rely=.70)
+                label.place(relx=.80, rely=.70)
 
         if self.has_file_label:
+            label = self.get_label(False)
             if self.container.is_flipped:
-                Label(self.button, bg=self.get_color(), text=str(8 - self.rank)).place(relx=.80, rely=.70)
+                label.place(relx=.80, rely=.70)
             else:
-                Label(self.button, bg=self.get_color(), text=str(8-self.rank)).place(relx=0, rely=0)
+                label.place(relx=0, rely=0)
+
+    def get_label(self, is_rank: bool) -> Label:
+        """
+        Condenses the Label() definition to a single line
+        :param is_rank: A simple Boolean switch to avoid two separate functions
+        :return: The desired Label() objects
+        """
+        txt = key[self.file] if is_rank else str(8 - self.rank)
+        return Label(self.button, bg=self.get_color(), text=txt)
 
     def update(self):
         """

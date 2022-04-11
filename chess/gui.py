@@ -36,24 +36,29 @@ class GUI:
         # Deletes the current menu, if present
         self.delete_menu()
 
-        # Get background and foreground colors for menu; changes depending on next move
-        bg = WHITE if self.board.move else BLACK
-        fg = BLACK if self.board.move else WHITE
         text = "WHITE TO MOVE" if self.board.move else "BLACK TO MOVE"
 
-        self.reset = Button(self.root, height=H, width=W, bg=bg, fg=fg, text="RESTART", relief=RAISED, borderwidth=BW,
-                            command=lambda: self.board.reset_game())
-        self.flip = Button(self.root, height=H, width=W, bg=bg, fg=fg, text="FLIP BOARD", relief=RAISED, borderwidth=BW,
-                           command=lambda: self.board.flip_board())
-        self.indicator = Button(self.root, height=H, width=W, bg=bg, fg=fg, text=text, relief=RAISED, borderwidth=BW,
-                                command=lambda: self.board.set_view())
-        self.end = Button(self.root, height=H, width=W, bg=bg, fg=fg, text="EXIT", relief=RAISED, borderwidth=BW,
-                          command=lambda: self.root.destroy())
+        self.reset = self.get_button("RESTART", lambda: self.board.reset_game())
+        self.flip = self.get_button("FLIP BOARD", lambda: self.board.flip_board())
+        self.indicator = self.get_button(text, lambda: self.board.set_view())
+        self.end = self.get_button("EXIT", lambda: self.root.destroy())
 
         self.reset.grid(row=9, rowspan=1, column=0, columnspan=2, padx=PX, pady=PY)
         self.flip.grid(row=9, rowspan=1, column=2, columnspan=2, padx=PX, pady=PY)
         self.indicator.grid(row=9, rowspan=1, column=4, columnspan=2, padx=PX, pady=PY)
         self.end.grid(row=9, rowspan=1, column=6, columnspan=2, padx=PX, pady=PY)
+
+    def get_button(self, txt: str, f) -> Button:
+        """
+        Condenses the Button() declarations to a single line
+        :param txt: The button text
+        :param f: The button function
+        :return: The desired Button() object
+        """
+        # Get background and foreground colors for menu; changes depending on next move
+        bg = WHITE if self.board.move else BLACK
+        fg = BLACK if self.board.move else WHITE
+        return Button(self.root, height=H, width=W, bg=bg, fg=fg, text=txt, relief=RAISED, borderwidth=BW, command=f)
 
     def delete_menu(self):
         """
