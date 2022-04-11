@@ -25,6 +25,7 @@ class Board:
         self.make_squares()
         self.frame.grid(row=0, column=0, rowspan=8, columnspan=8)
 
+    # noinspection GrazieInspection
     def make_squares(self):
         """
         Creates all the Square() objects in the board
@@ -32,7 +33,8 @@ class Board:
         # Iterates through an 8x8 chessboard; Square.__init__() handles initialization
         for i in range(8):
             for j in range(8):
-                self.squares[i][j] = Square(self.frame, self, self.logic.move_logic, i, j, i == 7, j == 0)
+                # noinspection PyTypeChecker
+                self.squares[i][j] = Square(self.frame, self, self.logic, i, j, i == 7, j == 0)
 
     def flip_board(self):
         """Flips and updates board"""
@@ -55,4 +57,5 @@ class Board:
         """Updates every square on the board"""
         for rank in self.squares:
             for square in rank:
+                # noinspection PyUnresolvedReferences
                 square.update()

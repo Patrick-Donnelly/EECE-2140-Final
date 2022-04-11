@@ -7,30 +7,6 @@ class MoveLogic:
         self.board_logic = board_logic
         self.en_passant = None
 
-    def master_button_action(self, square):
-        """
-        Sice Tkinter buttons can only have one command, this function serves as that command
-        :param square: The square attached to the button
-        """
-        # If there is a highlighted square, either attempt or abort capture
-        # If you attempt to highlight an enemy or null piece, nothing happens
-        if square.container.selected_square:
-            # If the selected square is the given square, abort capture
-            if square.container.selected_square is square:
-                self.board_logic.abort_move()
-            else:
-                # If the pieces are on opposite teams, attempt capture; else, abort
-                if square.piece.team != square.container.move:
-                    self.attempt_capture(square)
-                else:
-                    self.board_logic.abort_move()
-        elif square.piece.team == square.container.move:
-            square.container.selected_square = square
-            if self.board_logic.has_legal_moves():
-                self.board_logic.highlight_legal_moves()
-            else:
-                self.board_logic.abort_move()
-
     def attempt_capture(self, defender):
         """
         Attempts to capture the current square from the board's selected square

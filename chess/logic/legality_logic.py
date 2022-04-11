@@ -7,38 +7,47 @@ class LegalityLogic:
     def __init__(self, move_logic):
         self.move_logic = move_logic
 
-    def is_legal(self, square) -> bool:
+    def is_legal(self, defender) -> bool:
         """
-        A bloated switch to direct move to proper logic
-        :param square: ditto
-        """
-        attacker = self.move_logic.board_logic.board.selected_square.piece
-
-        if square.piece.team == attacker.team:
-            return False
-
-        if isinstance(attacker, Pawn):
-            return self.is_legal_pawn(square)
-        elif isinstance(attacker, Knight):
-            return self.is_legal_knight(square)
-        elif isinstance(attacker, Bishop):
-            return self.is_legal_bishop(square)
-        elif isinstance(attacker, Rook):
-            return self.is_legal_rook(square)
-        elif isinstance(attacker, Queen):
-            return self.is_legal_queen(square)
-        elif isinstance(attacker, King):
-            return self.is_legal_king(square)
-        else:
-            raise RuntimeError("UNKNOWN ERROR")
-
-    def is_legal_pawn(self, defender) -> bool:
-        """
-        Determines the legality of a given pawn move
         :param defender: The defending square
         :return: A Boolean corresponding to the legality of the move
         """
-        attacker = self.move_logic.board_logic.board.selected_square
+        return self._is_legal(self.move_logic.board_logic.board.selected_square, defender)
+
+    def _is_legal(self, attacker, defender) -> bool:
+        """
+        A bloated switch to direct move to proper logic
+        :param attacker: The attacking square
+        :param defender: The defending square
+        :return: A Boolean corresponding to the legality of the move
+        """
+        attacking_piece = attacker.piece
+
+        if defender.piece.team == attacking_piece.team:
+            return False
+
+        if isinstance(attacking_piece, Pawn):
+            return self.is_legal_pawn(attacker, defender)
+        elif isinstance(attacking_piece, Knight):
+            return self.is_legal_knight(attacker, defender)
+        elif isinstance(attacking_piece, Bishop):
+            return self.is_legal_bishop(attacker, defender)
+        elif isinstance(attacking_piece, Rook):
+            return self.is_legal_rook(attacker, defender)
+        elif isinstance(attacking_piece, Queen):
+            return self.is_legal_queen(attacker, defender)
+        elif isinstance(attacking_piece, King):
+            return self.is_legal_king(attacker, defender)
+        else:
+            raise RuntimeError("UNKNOWN ERROR")
+
+    def is_legal_pawn(self, attacker, defender) -> bool:
+        """
+        Determines the legality of a given pawn move
+        :param attacker: ditto
+        :param defender: ditto
+        :return: A Boolean corresponding to the legality of the move
+        """
         dx, dy = self.get_dp(attacker, defender)
 
         # The most basic chess piece, can only move forward, and may only capture diagonally
@@ -51,19 +60,19 @@ class LegalityLogic:
                 return False
         elif dy in [-1, 1]:  # By definition, must either be attempting to capture or is an illegal move
             if dx == 1:
-                return bool(defender.piece) or self.check_en_passant(defender)
+                return bool(defender.piece) or self.check_en_passant(attacker, defender)
             else:
                 return False
         else:
             return False
 
-    def is_legal_knight(self, defender) -> bool:
+    def is_legal_knight(self, attacker, defender) -> bool:
         """
         Determines the legality of a given knight move
-        :param defender: The defending square
+        :param attacker: ditto
+        :param defender: ditto
         :return: A Boolean corresponding to the legality of the move
         """
-        attacker = self.move_logic.board_logic.board.selected_square
         dx, dy = self.get_dp(attacker, defender)
         dx, dy = abs(dx), abs(dy)
 
@@ -73,13 +82,13 @@ class LegalityLogic:
         else:
             return False
 
-    def is_legal_bishop(self, defender) -> bool:
+    def is_legal_bishop(self, attacker, defender) -> bool:
         """
         Determines the legality of a given bishop move
-        :param defender: The defending square
+        :param attacker: ditto
+        :param defender: ditto
         :return: A Boolean corresponding to the legality of the move
         """
-        attacker = self.move_logic.board_logic.board.selected_square
         dx, dy = self.get_dp(attacker, defender)
 
         # Bishop can only move along diagonals, i.e. |dx| = |dy| with no other pieces in the way
@@ -94,13 +103,13 @@ class LegalityLogic:
         else:
             return False
 
-    def is_legal_rook(self, defender) -> bool:
+    def is_legal_rook(self, attacker, defender) -> bool:
         """
         Determines the legality of a given rook move
-        :param defender: The defending square
+        :param attacker: ditto
+        :param defender: ditto
         :return: A Boolean corresponding to the legality of the move
         """
-        attacker = self.move_logic.board_logic.board.selected_square
         dx, dy = self.get_dp(attacker, defender)
 
         # Rooks may only move in straight lines
@@ -120,37 +129,38 @@ class LegalityLogic:
         else:
             return False
 
-    def is_legal_queen(self, defender) -> bool:
+    def is_legal_queen(self, attacker, defender) -> bool:
         """
         Determines the legality of a given rook move
-        :param defender: The defending square
+        :param attacker: ditto
+        :param defender: ditto
         :return: A Boolean corresponding to the legality of the move
         """
         # A queen is a combination a bishop and a rook
-        return self.is_legal_bishop(defender) or self.is_legal_rook(defender)
+        return self.is_legal_bishop(attacker, defender) or self.is_legal_rook(attacker, defender)
 
-    def is_legal_king(self, defender) -> bool:
+    def is_legal_king(self, attacker, defender) -> bool:
         """
         Determines the legality of a given rook move
-        :param defender: The defending square
+        :param attacker: ditto
+        :param defender: ditto
         :return: A Boolean corresponding to the legality of the move
         """
-        attacker = self.move_logic.board_logic.board.selected_square
         dx, dy = self.get_dp(attacker, defender)
 
         # A king can only move one space in any direction, including diagonals
         if dx in [-1, 0, 1] and dy in [-1, 0, 1]:
             return True
         else:
-            return self.check_castle(defender)
+            return self.check_castle(attacker, defender)
 
-    def check_en_passant(self, defender) -> bool:
+    def check_en_passant(self, attacker, defender) -> bool:
         """
         Checks whether a given move fulfills the special conditions of en passant
+        :param attacker: ditto
         :param defender: ditto
         :return: A Boolean signaling the move's legality
         """
-        attacker = self.move_logic.board_logic.board.selected_square
         dx, dy = self.get_dp(attacker, defender)
 
         if dy == -1:
@@ -160,20 +170,20 @@ class LegalityLogic:
 
         return piece is self.move_logic.en_passant
 
-    def check_castle(self, defender) -> bool:
+    def check_castle(self, attacker, defender) -> bool:
         """
         Checks whether a given move fulfills the special conditions of castling
+        :param attacker: ditto
         :param defender: ditto
         :return: A Boolean signaling the move's legality
         """
         squares = self.move_logic.board_logic.board.squares
-        attacker = self.move_logic.board_logic.board.selected_square
 
         # This is admittedly a bit overboard in terms of condensation, but it follows the normal castling rules,
         # accounting for the asymmetry between the black and white kings
         if defender.rank in [0, 7] and defender.file in [2, 6] and not attacker.piece.has_moved:
             rook = squares[7*attacker.piece.team][7*(defender.file == 6)]
-            return isinstance(rook.piece, Rook) and not rook.piece.has_moved and self.is_legal_rook(defender)
+            return isinstance(rook.piece, Rook) and not rook.piece.has_moved and self.is_legal_rook(attacker, defender)
         else:
             return False
 
