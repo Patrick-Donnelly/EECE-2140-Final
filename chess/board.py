@@ -16,6 +16,7 @@ class Board:
         self.logic = BoardLogic(self, container)
 
         self.squares = [[None for _ in range(8)] for _ in range(8)]  # Standard 8x8 chessboard
+        self.kings = {True: None, False: None}
 
         self.move = True  # The team of the current move; True if white, else False if black
         self.selected_square = None  # The current highlighted square on the board; by default is empty
@@ -35,6 +36,10 @@ class Board:
             for j in range(8):
                 # noinspection PyTypeChecker
                 self.squares[i][j] = Square(self.frame, self, self.logic, i, j, i == 7, j == 0)
+
+        # Initialize king positions
+        self.kings[True] = self.squares[7][4]
+        self.kings[False] = self.squares[0][4]
 
     def flip_board(self):
         """Flips and updates board"""

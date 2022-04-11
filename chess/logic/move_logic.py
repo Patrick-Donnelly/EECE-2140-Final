@@ -16,6 +16,10 @@ class MoveLogic:
         if self.board_logic.legality_logic.is_legal(defender):
             self.en_passant = None
             self.move(defender)
+
+            if isinstance(defender.piece, King):
+                self.board_logic.board.kings[defender.piece.team] = defender
+
             defender.container.move = not defender.container.move
             self.board_logic.remove_highlights()
             self.board_logic.gui.update_menu()
