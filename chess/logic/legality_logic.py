@@ -145,6 +145,11 @@ class LegalityLogic:
             return self.check_castle(defender)
 
     def check_en_passant(self, defender) -> bool:
+        """
+        Checks whether a given move fulfills the special conditions of en passant
+        :param defender: ditto
+        :return: A Boolean signaling the move's legality
+        """
         attacker = self.move_logic.board_logic.board.selected_square
         dx, dy = self.get_dp(attacker, defender)
 
@@ -156,9 +161,16 @@ class LegalityLogic:
         return piece is self.move_logic.en_passant
 
     def check_castle(self, defender) -> bool:
+        """
+        Checks whether a given move fulfills the special conditions of castling
+        :param defender: ditto
+        :return: A Boolean signaling the move's legality
+        """
         squares = self.move_logic.board_logic.board.squares
         attacker = self.move_logic.board_logic.board.selected_square
 
+        # This is admittedly a bit overboard in terms of condensation, but it follows the normal castling rules,
+        # accounting for the asymmetry between the black and white kings
         if defender.rank in [0, 7] and defender.file in [2, 6] and not attacker.piece.has_moved:
             rook = squares[7*attacker.piece.team][7*(defender.file == 6)]
             return isinstance(rook.piece, Rook) and not rook.piece.has_moved and self.is_legal_rook(defender)

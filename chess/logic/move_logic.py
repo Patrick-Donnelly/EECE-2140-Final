@@ -81,6 +81,7 @@ class MoveLogic:
 
         dp = self.board_logic.legality_logic.get_dp(self.board_logic.board.selected_square, defender)
 
+        # En passant may only be executed immediately following the opponent's two-space pawn move
         if dp == (2, 0):
             self.en_passant = attacker.piece
 
