@@ -4,9 +4,9 @@ from ..pieces import *
 # Main Window Background
 BG = "#ffeecc"
 
-# Hex colors for black and white squares, both neutral and selected
-WHITE_SQUARE = '#bfbfbf', '#ff00ff'
-BLACK_SQUARE = '#994d00', "#ff00ff"
+# Hex colors for black and white squares, neutral, active, checked
+WHITE_SQUARE = '#bfbfbf', '#ff00ff', '#ff0000'
+BLACK_SQUARE = '#994d00', "#ff00ff", '#ff0000'
 
 # Menu Colors
 BLACK = '#000000'

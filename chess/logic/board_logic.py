@@ -26,7 +26,8 @@ class BoardLogic:
                 if square.piece.team != square.container.move:
                     self.move_logic.attempt_capture(square)
                     if self.in_check():
-                        print("CHECK")
+                        self.board.kings[self.board.move].in_check = True
+                        self.board.kings[self.board.move].update()
                 else:
                     self.abort_move()
         elif square.piece.team == square.container.move:
@@ -97,6 +98,7 @@ class BoardLogic:
         """
         for rank in self.board.squares:
             for square in rank:
-                if square.is_highlighted:
+                if square.is_highlighted or square.in_check:
                     square.is_highlighted = False
+                    square.in_check = False
                     square.update()

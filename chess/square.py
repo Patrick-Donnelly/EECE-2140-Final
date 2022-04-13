@@ -43,8 +43,9 @@ class Square:
         self.square = None
         self.button = None
 
-        # Controls whether the square is highlighted when drawn
+        # Controls square highlight
         self.is_highlighted = False
+        self.in_check = False
 
         self.set_square()
 
@@ -129,7 +130,9 @@ class Square:
         Returns the correct color for whether the square is inverted or not
         :return: A string representing the appropriate color for the square
         """
-        if self.is_highlighted:
+        if self.in_check:
+            return self.color_palette[2]
+        elif self.is_highlighted:
             return self.color_palette[1]
         else:
             return self.color_palette[0]
