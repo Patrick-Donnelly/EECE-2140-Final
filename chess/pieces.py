@@ -16,12 +16,13 @@ class Piece:
         self.type = None  # The type of the piece for internal use
         self.has_moved = False  # Used for pawn moves, castling, and en passant
 
-    def set_label(self):
+    def set_label(self, piece_type: int):
         """
         Sets the label of the piece
+        :param piece_type: the associated integer of the desired label
         """
-        if self.type is not None:
-            self.label = self.LABELS[self.type][self.team]
+        if type is not None:
+            self.label = self.LABELS[piece_type][self.team]
 
     def __bool__(self):
         """
@@ -41,40 +42,34 @@ class King(Piece):
     """An abstraction of a chess king"""
     def __init__(self, team: bool):
         super().__init__(team)
-        self.type = 0
-        self.set_label()
+        self.set_label(0)
 
 class Queen(Piece):
     """An abstraction of a chess queen"""
     def __init__(self, team: bool):
         super().__init__(team)
-        self.type = 1
-        self.set_label()
+        self.set_label(1)
 
 class Rook(Piece):
     """An abstraction of a chess rook"""
     def __init__(self, team: bool):
         super().__init__(team)
-        self.type = 2
-        self.set_label()
+        self.set_label(2)
 
 class Bishop(Piece):
     """An abstraction of a chess bishop"""
     def __init__(self, team: bool):
         super().__init__(team)
-        self.type = 3
-        self.set_label()
+        self.set_label(3)
 
 class Knight(Piece):
     """An abstraction of a chess knight"""
     def __init__(self, team: bool):
         super().__init__(team)
-        self.type = 4
-        self.set_label()
+        self.set_label(4)
 
 class Pawn(Piece):
     """An abstraction of a chess pawn"""
     def __init__(self, team: bool):
         super().__init__(team)
-        self.type = 5
-        self.set_label()
+        self.set_label(5)
