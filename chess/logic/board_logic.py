@@ -9,6 +9,8 @@ class BoardLogic:
         self.gui = gui
         self.move_logic = MoveLogic(self)
         self.legality_logic = LegalityLogic(self.move_logic)
+        self.check = False
+        self.checking_square = None
 
     def master_button_action(self, square):
         """
@@ -25,7 +27,8 @@ class BoardLogic:
                 # If the pieces are on opposite teams, attempt capture; else, abort
                 if square.piece.team != square.container.move:
                     self.move_logic.attempt_capture(square)
-                    if self.in_check():
+                    self.check, self.checking_square = self.in_check()
+                    if self.check:
                         self.board.kings[self.board.move].in_check = True
                         self.board.kings[self.board.move].update()
                 else:
@@ -67,7 +70,7 @@ class BoardLogic:
                     return True
         return False
 
-    def in_check(self) -> bool:
+    def in_check(self):
         """
         Determines whether the opposing player is in check
         :return: A boolean representing whether the opposing piece's team is in check
@@ -76,8 +79,8 @@ class BoardLogic:
         for rank in self.board.squares:
             for square in rank:
                 if self.legality_logic._is_legal(square, king):
-                    return True
-        return False
+                    return True, square
+        return False, None
 
     def highlight_legal_moves(self):
         """
@@ -98,7 +101,6 @@ class BoardLogic:
         """
         for rank in self.board.squares:
             for square in rank:
-                if square.is_highlighted or square.in_check:
+                if square.is_highlighted:
                     square.is_highlighted = False
-                    square.in_check = False
                     square.update()

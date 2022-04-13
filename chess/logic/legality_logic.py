@@ -12,7 +12,12 @@ class LegalityLogic:
         :param defender: The defending square
         :return: A Boolean corresponding to the legality of the move
         """
-        return self._is_legal(self.move_logic.board_logic.board.selected_square, defender)
+        attacker = self.move_logic.board_logic.board.selected_square
+
+        if self.move_logic.board_logic.check:
+            return self.is_legal_check(attacker, defender)
+        else:
+            return self._is_legal(attacker, defender)
 
     def _is_legal(self, attacker, defender) -> bool:
         """
@@ -41,6 +46,28 @@ class LegalityLogic:
         else:
             raise RuntimeError("UNKNOWN ERROR")
 
+    def is_legal_check(self, attacker, defender) -> bool:
+        """
+        Determines whether the given move is legal given check
+        :param attacker: ditto
+        :param defender: ditto
+        :return: A Boolean corresponding to the legality of the move
+        """
+        if not self._is_legal(attacker, defender):
+            return False
+
+        check_piece = self.move_logic.board_logic.checking_square
+        checked_king = self.move_logic.board_logic.board.kings[self.move_logic.board_logic.board.move]
+
+        if defender.piece is check_piece.piece:
+            return True
+        elif attacker is checked_king:
+            return not self._is_legal(check_piece, defender)
+        elif isinstance(check_piece.piece, Pawn) or isinstance(check_piece, Knight):
+            return False
+        else:
+            pass
+
     def is_legal_pawn(self, attacker, defender) -> bool:
         """
         Determines the legality of a given pawn move
@@ -53,7 +80,7 @@ class LegalityLogic:
         # The most basic chess piece, can only move forward, and may only capture diagonally
         if dy == 0:  # Must either be a first-move move of two, or a simple move of one; must be unobstructed
             if dx == 2 and not attacker.piece.has_moved:
-                return not (bool(self.get_relative(attacker, 1, 0).piece) and bool(attacker.piece))
+                return not (bool(self.get_relative(attacker, 1, 0).piece) or bool(defender.piece))
             elif dx == 1:
                 return not bool(defender.piece)
             else:
