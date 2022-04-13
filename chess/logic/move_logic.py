@@ -12,7 +12,7 @@ class MoveLogic:
         Attempts to capture the current square from the board's selected square
         :param defender: ditto
         """
-        # If the attempted ove is legal, execute; else, abort
+        # If the attempted move is legal, execute; else, abort
         if self.board_logic.legality_logic.is_legal(defender):
             self.en_passant = None
             self.move(defender)

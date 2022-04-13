@@ -25,6 +25,8 @@ class BoardLogic:
                 # If the pieces are on opposite teams, attempt capture; else, abort
                 if square.piece.team != square.container.move:
                     self.move_logic.attempt_capture(square)
+                    if self.in_check():
+                        print("CHECK")
                 else:
                     self.abort_move()
         elif square.piece.team == square.container.move:
@@ -43,12 +45,36 @@ class BoardLogic:
 
     def has_legal_moves(self) -> bool:
         """
-        Determines whether a given piece has legal moves
+        Determines whether the selected square has legal moves
         :return: A Boolean representing whether a given piece has legal moves
         """
         for rank in self.board.squares:
             for square in rank:
                 if self.legality_logic.is_legal(square):
+                    return True
+        return False
+
+    def _has_legal_moves(self, mover) -> bool:
+        """
+        Determines whether a given piece has legal moves
+        :param mover: The square attempting movement
+        :return: A Boolean representing whether a given piece has legal moves
+        """
+        for rank in self.board.squares:
+            for square in rank:
+                if self.legality_logic._is_legal(mover, square):
+                    return True
+        return False
+
+    def in_check(self) -> bool:
+        """
+        Determines whether the opposing player is in check
+        :return: A boolean representing whether the opposing piece's team is in check
+        """
+        king = self.board.kings[self.board.move]
+        for rank in self.board.squares:
+            for square in rank:
+                if self.legality_logic._is_legal(square, king):
                     return True
         return False
 

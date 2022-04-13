@@ -23,7 +23,7 @@ class LegalityLogic:
         """
         attacking_piece = attacker.piece
 
-        if defender.piece.team == attacking_piece.team:
+        if defender.piece.team == attacking_piece.team or attacking_piece.team is None:
             return False
 
         if isinstance(attacking_piece, Pawn):
@@ -53,7 +53,7 @@ class LegalityLogic:
         # The most basic chess piece, can only move forward, and may only capture diagonally
         if dy == 0:  # Must either be a first-move move of two, or a simple move of one; must be unobstructed
             if dx == 2 and not attacker.piece.has_moved:
-                return not (bool(self.get_relative(1, 0).piece) and bool(attacker.piece))
+                return not (bool(self.get_relative(attacker, 1, 0).piece) and bool(attacker.piece))
             elif dx == 1:
                 return not bool(defender.piece)
             else:
@@ -97,7 +97,7 @@ class LegalityLogic:
             y_negative = dy < 0
             # For each square along the diagonal, if it is populated by a non-null piece, it fails
             for i in range(1, abs(dx)):
-                if bool(self.get_relative(i*((-1)**x_negative), i*((-1)**y_negative)).piece):
+                if bool(self.get_relative(attacker, i*((-1)**x_negative), i*((-1)**y_negative)).piece):
                     return False
             return True
         else:
@@ -118,12 +118,12 @@ class LegalityLogic:
             if dx:
                 x_negative = dx < 0
                 for i in range(1, abs(dx)):
-                    if bool(self.get_relative(i*((-1)**x_negative), 0).piece):
+                    if bool(self.get_relative(attacker, i*((-1)**x_negative), 0).piece):
                         return False
             else:
                 y_negative = dy < 0
                 for i in range(1, abs(dy)):
-                    if bool(self.get_relative(0, i*((-1)**y_negative)).piece):
+                    if bool(self.get_relative(attacker, 0, i*((-1)**y_negative)).piece):
                         return False
             return True
         else:
@@ -164,9 +164,9 @@ class LegalityLogic:
         dx, dy = self.get_dp(attacker, defender)
 
         if dy == -1:
-            piece = self.get_relative(0, -1).piece
+            piece = self.get_relative(attacker, 0, -1).piece
         else:
-            piece = self.get_relative(0, 1).piece
+            piece = self.get_relative(attacker, 0, 1).piece
 
         return piece is self.move_logic.en_passant
 
@@ -201,13 +201,13 @@ class LegalityLogic:
             return defender.rank - attacker.rank, attacker.file - defender.file
 
     # NOTE: COORDINATES ARE BACKWARD FROM MATHEMATICAL CONVENTION
-    def get_relative(self, dx: int, dy: int):
+    def get_relative(self, square, dx: int, dy: int):
         """
         Returns the square relative to a given square via standardized units
+        :param square: ditto
         :param dx: VERTICAL DISPLACEMENT
         :param dy: HORIZONTAL DISPLACEMENT
         """
-        square = self.move_logic.board_logic.board.selected_square
         x = square.rank
         y = square.file
         if square.piece.team:
