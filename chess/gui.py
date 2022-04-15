@@ -17,7 +17,7 @@ class GUI:
         self.end = None
 
         # Copyright/Version Label
-        self.version_label = Label(master=self.root, bg=BG, text="v1.0.0 \u00A9 Patrick J. Donnelly, 2022")
+        self.version_label = Label(master=self.root, bg=BG, text="v1.0.1 \u00A9 Patrick J. Donnelly, 2022")
         self.version_label.grid(row=10, rowspan=1, column=2, columnspan=4, padx=PX, pady=PY)
 
         # Creates a non-resizable 640x720 window named 'Chess' situated on top of all windows

@@ -125,7 +125,7 @@ class Square:
         # Place a button over top of the frame
         self.set_button()
 
-    def get_color(self):
+    def get_color(self) -> str:
         """
         Returns the correct color for whether the square is inverted or not
         :return: A string representing the appropriate color for the square

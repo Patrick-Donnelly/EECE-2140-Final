@@ -52,6 +52,7 @@ class Board:
         self.is_flipped = False
         self.logic.check = False
         self.make_squares()
+        self.logic.gui.update_menu()
         # Doesn't require an update command because squares are destroyed and re-instantiated
 
     def set_view(self):

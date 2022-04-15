@@ -71,7 +71,7 @@ class BoardLogic:
                     return True
         return False
 
-    def in_check(self):
+    def in_check(self) -> list:
         """
         Determines whether the opposing player is in check
         :return: A boolean representing whether the opposing piece's team is in check
