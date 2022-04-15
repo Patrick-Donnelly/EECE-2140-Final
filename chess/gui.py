@@ -1,5 +1,5 @@
 # gui.py by Patrick J. Donnelly
-from tkinter import Tk, Button, RAISED
+from tkinter import Tk, Button, Label, RAISED
 from .board import Board
 from .logic.initialization import BG, BLACK, WHITE, H, W, PX, PY, BW
 
@@ -16,9 +16,13 @@ class GUI:
         self.indicator = None
         self.end = None
 
+        # Copyright/Version Label
+        self.version_label = Label(master=self.root, bg=BG, text="v1.0.0 \u00A9 Patrick J. Donnelly, 2022")
+        self.version_label.grid(row=10, rowspan=1, column=2, columnspan=4, padx=PX, pady=PY)
+
         # Creates a non-resizable 640x720 window named 'Chess' situated on top of all windows
         self.root.title("Chess")
-        self.root.geometry('640x720')
+        self.root.geometry('640x760')
         self.root.resizable(False, False)
         self.root.wm_attributes('-topmost', True)
         self.root.config(bg=BG)

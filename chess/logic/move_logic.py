@@ -68,7 +68,7 @@ class MoveLogic:
 
         if dp in [(1, -1), (1, 1)] and not defender.piece:
             logic = self.board_logic.legality_logic
-            pawn_square = logic.get_relative(0, dp[1])
+            pawn_square = logic.get_relative(attacker, 0, dp[1])
             pawn_square.piece = Piece(None)
             pawn_square.update()
 
@@ -95,4 +95,4 @@ class MoveLogic:
                 target = 1
 
             logic = self.board_logic.legality_logic
-            self._move(logic.get_relative(0, rook), logic.get_relative(0, target))
+            self._move(logic.get_relative(attacker, 0, rook), logic.get_relative(attacker, 0, target))
