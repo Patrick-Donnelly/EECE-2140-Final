@@ -13,7 +13,6 @@ class Piece:
         """
         self.team = team
         self.label = ' '  # The image associated with the piece
-        self.type = None  # The type of the piece for internal use
         self.has_moved = False  # Used for pawn moves, castling, and en passant
 
     def set_label(self, piece_type: int):
@@ -21,8 +20,7 @@ class Piece:
         Sets the label of the piece
         :param piece_type: the associated integer of the desired label
         """
-        if type is not None:
-            self.label = self.LABELS[piece_type][self.team]
+        self.label = self.LABELS[piece_type][self.team]
 
     def __bool__(self):
         """

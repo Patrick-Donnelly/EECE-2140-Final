@@ -4,7 +4,7 @@ from tkinter.font import Font
 from .logic.initialization import get_color, get_piece
 
 # A universal key which translates file number into file letters
-key = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g', 7: 'h'}
+KEY = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g', 7: 'h'}
 
 # While originally intended to be a simple container for Button() objects, since Tkinter doesn't allow pixel
 # modification of Button() objects, the object now houses each a frame and a button.
@@ -100,7 +100,7 @@ class Square:
         :param is_rank: A simple Boolean switch to avoid two separate functions
         :return: The desired Label() objects
         """
-        txt = key[self.file] if is_rank else str(8 - self.rank)
+        txt = KEY[self.file] if is_rank else str(8 - self.rank)
         return Label(self.button, bg=self.get_color(), text=txt)
 
     def update(self):
@@ -142,4 +142,4 @@ class Square:
         Defines the string of a square
         :return: The string representation of a given square
         """
-        return str(self.piece) + key[self.file] + str(8 - self.rank)
+        return str(self.piece) + KEY[self.file] + str(8 - self.rank)

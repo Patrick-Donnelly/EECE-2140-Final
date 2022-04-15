@@ -26,6 +26,9 @@ class GUI:
         # Call and place the chessboard, which will initialize itself upon instantiation
         self.board = Board(self.root, self)
 
+        # Checkmate handling
+        self.checkmate = False  # UNUSED
+
         # Initializes the menu
         self.update_menu()
 

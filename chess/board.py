@@ -50,6 +50,7 @@ class Board:
         """Resets and updates game"""
         self.move = True
         self.is_flipped = False
+        self.logic.check = False
         self.make_squares()
         # Doesn't require an update command because squares are destroyed and re-instantiated
 

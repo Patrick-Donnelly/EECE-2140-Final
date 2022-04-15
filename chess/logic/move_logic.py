@@ -14,6 +14,7 @@ class MoveLogic:
         """
         # If the attempted move is legal, execute; else, abort
         if self.board_logic.legality_logic.is_legal(defender):
+            self.board_logic.end_check()
             self.en_passant = None
             self.move(defender)
 
