@@ -17,7 +17,7 @@ class GUI:
         self.end = None
 
         # Copyright/Version Label
-        self.version_label = Label(master=self.root, bg=BG, text="v1.0.1 \u00A9 Patrick J. Donnelly, 2022")
+        self.version_label = Label(master=self.root, bg=BG, text="v1.1.0 \u00A9 Patrick J. Donnelly, 2022")
         self.version_label.grid(row=10, rowspan=1, column=2, columnspan=4, padx=PX, pady=PY)
 
         # Creates a non-resizable 640x720 window named 'Chess' situated on top of all windows
@@ -43,7 +43,10 @@ class GUI:
         # Deletes the current menu, if present
         self.delete_menu()
 
-        text = "WHITE TO MOVE" if self.board.move else "BLACK TO MOVE"
+        if self.board.kings[True] and self.board.kings[False]:
+            text = "WHITE TO MOVE" if self.board.move else "BLACK TO MOVE"
+        else:
+            text = "GAME OVER"
 
         self.reset = self.get_button("RESTART", lambda: self.board.reset_game())
         self.flip = self.get_button("FLIP BOARD", lambda: self.board.flip_board())

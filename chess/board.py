@@ -51,6 +51,7 @@ class Board:
         self.move = True
         self.is_flipped = False
         self.logic.check = False
+        self.logic.checking_squares = None
         self.make_squares()
         self.logic.gui.update_menu()
         # Doesn't require an update command because squares are destroyed and re-instantiated

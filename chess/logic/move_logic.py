@@ -1,5 +1,5 @@
 # move_logic.py by Patrick J. Donnelly
-from ..pieces import Piece, King, Pawn
+from ..pieces import Piece, King, Queen, Pawn
 
 class MoveLogic:
     """Represents the move-level logic of the program"""
@@ -14,12 +14,18 @@ class MoveLogic:
         """
         # If the attempted move is legal, execute; else, abort
         if self.board_logic.legality_logic.is_legal(defender):
-            self.board_logic.end_check()
+            if self.board_logic.check:
+                self.board_logic.end_check()
             self.en_passant = None
             self.move(defender)
 
-            if isinstance(defender.piece, King):
-                self.board_logic.board.kings[defender.piece.team] = defender
+            # Pawn automatically promotes to queen
+            if isinstance(defender.piece, Pawn):
+                if defender.piece.team and defender.rank == 0:
+                    defender.piece = Queen(True)
+                elif not defender.piece.team and defender.rank == 7:
+                    defender.piece = Queen(False)
+                defender.update()
 
             defender.container.move = not defender.container.move
             self.board_logic.remove_highlights()
@@ -32,10 +38,18 @@ class MoveLogic:
         Moves one piece from the given space to the selected space
         :param defender: ditto
         """
+        attacker = self.board_logic.board.selected_square
         self.check_castle(defender)
         self.check_en_passant(defender)
-        self._move(self.board_logic.board.selected_square, defender)
-        defender.container.selected_square = None
+
+        if isinstance(defender.piece, King):
+            self.board_logic.board.kings[not self.board_logic.board.move] = None
+
+        if isinstance(attacker.piece, King):
+            self.board_logic.board.kings[self.board_logic.board.move] = defender
+
+        self._move(attacker, defender)
+        self.board_logic.board.selected_square = None
 
     @staticmethod
     def _move(attacker, defender):

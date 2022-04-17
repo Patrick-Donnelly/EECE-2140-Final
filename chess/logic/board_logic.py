@@ -27,11 +27,17 @@ class BoardLogic:
                 # If the pieces are on opposite teams, attempt capture; else, abort
                 if square.piece.team != square.container.move:
                     self.move_logic.attempt_capture(square)
+
+                    # Check handling; rough outline
                     self.checking_squares = self.in_check()
                     if self.checking_squares:
                         self.check = True
                         self.board.kings[self.board.move].in_check = True
                         self.board.kings[self.board.move].update()
+
+                        for square in self.checking_squares:
+                            square.in_check = True
+                            square.update()
                 else:
                     self.abort_move()
         elif square.piece.team == square.container.move:
@@ -78,16 +84,21 @@ class BoardLogic:
         """
         king = self.board.kings[self.board.move]
         squares = list()
-        for rank in self.board.squares:
-            for square in rank:
-                if self.legality_logic._is_legal(square, king):
-                    squares.append(square)
+        if king:
+            for rank in self.board.squares:
+                for square in rank:
+                    if self.legality_logic._is_legal(square, king):
+                        squares.append(square)
         return squares
 
     def end_check(self):
         """
         Ends check
         """
+        if self.checking_squares:
+            for square in self.checking_squares:
+                square.in_check = False
+                square.update()
         self.check = False
         self.checking_squares = None
         self.board.kings[self.board.move].in_check = False

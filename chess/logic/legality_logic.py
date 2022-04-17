@@ -12,6 +12,10 @@ class LegalityLogic:
         :param defender: The defending square
         :return: A Boolean corresponding to the legality of the move
         """
+        # A workaround for having a true end-state win condition; if the king is captured, no more moves can be made
+        if not self.move_logic.board_logic.board.kings[self.move_logic.board_logic.board.move]:
+            return False
+
         attacker = self.move_logic.board_logic.board.selected_square
 
         return self._is_legal(attacker, defender)
